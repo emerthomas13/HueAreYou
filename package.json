@@ -1,8 +1,8 @@
 {
-  "name": "lower-case-dashed-name-of-project",
-  "repository": "REPOSITORY-NAME-AS-IT-APPEARS-IN-GITHUB-URL",
+  "name": "hue-are-you",
+  "repository": "https://github.com/emerthomas13/HueAreYou",
   "version": "0.1.0",
-  "title": "PROJECT TITLE HERE",
+  "title": "Hue Are You",
   "description": "SHORT DESCRIPTION OF PROJECT HERE. ONE TO TWO SENTENCES MAX",
   "keywords": [
     "Princeton",
