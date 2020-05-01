@@ -16,7 +16,7 @@ class SpaceScene extends Scene {
         };
 
         // Set background to a nice color
-        this.background = new Color(0xF0000);
+        this.background = new Color(0xFFFF00);
 
         // Add meshes to scene
         const land = new Land();
