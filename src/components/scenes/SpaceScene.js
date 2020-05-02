@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Land } from 'objects';
+import { Land, Flower, Box } from 'objects';
 import { BasicLights } from 'lights';
 
 class SpaceScene extends Scene {
@@ -20,9 +20,10 @@ class SpaceScene extends Scene {
 
         // Add meshes to scene
         const land = new Land();
-        //const flower = new Flower(this);
+        const box = new Box();
+        const flower = new Flower(this);
         const lights = new BasicLights();
-        this.add(land, lights);
+        this.add(lights, land, flower, box);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -42,5 +43,6 @@ class SpaceScene extends Scene {
         }
     }
 }
+
 
 export default SpaceScene;
