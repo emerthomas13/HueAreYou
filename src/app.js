@@ -6,7 +6,7 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { WebGLRenderer, Object3D, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SpaceScene } from 'scenes';
 
@@ -14,6 +14,7 @@ import { SpaceScene } from 'scenes';
 const scene = new SpaceScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
+
 
 
 // Set up camera
@@ -54,3 +55,30 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+
+
+
+
+// var text;
+// var geometry;
+
+// var color = new Color();
+// color.setRGB(0, 0, 1);
+// var textMaterial = new MeshBasicMaterial({ color: color });
+
+// var fontLoader = new FontLoader();
+// fontLoader.load("./node_modules/three/examples/fonts/helvetiker_regular.typeface.json", function (tex) {
+//     geometry = new TextGeometry('Test', {
+//         size: .5,
+//         height: .3,
+//         curveSegments: 6,
+//         font: tex,
+//     });
+
+//     text = new Mesh(geometry, textMaterial);
+//     scene.add(text);
+
+
+// })
+
+
