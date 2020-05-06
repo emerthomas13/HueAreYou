@@ -57,28 +57,24 @@ windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 
 
+var text;
+var geometry;
 
+var color = new Color();
+color.setRGB(0, 0, 1);
+var textMaterial = new MeshBasicMaterial({ color: color });
 
-// var text;
-// var geometry;
+var fontLoader = new FontLoader();
+fontLoader.load("./node_modules/three/examples/fonts/helvetiker_regular.typeface.json", function (tex) {
+    geometry = new TextGeometry('Test', {
+        size: .5,
+        height: .3,
+        curveSegments: 6,
+        font: tex,
+    });
 
-// var color = new Color();
-// color.setRGB(0, 0, 1);
-// var textMaterial = new MeshBasicMaterial({ color: color });
-
-// var fontLoader = new FontLoader();
-// fontLoader.load("./node_modules/three/examples/fonts/helvetiker_regular.typeface.json", function (tex) {
-//     geometry = new TextGeometry('Test', {
-//         size: .5,
-//         height: .3,
-//         curveSegments: 6,
-//         font: tex,
-//     });
-
-//     text = new Mesh(geometry, textMaterial);
-//     scene.add(text);
-
-
-// })
+    text = new Mesh(geometry, textMaterial);
+    scene.add(text);
+})
 
 
