@@ -19,7 +19,7 @@ const renderer = new WebGLRenderer({ antialias: true });
 
 // Set up camera
 camera.position.set(6, 3, -10);
-camera.lookAt(new Vector3(0, 0, 0));
+camera.lookAt(new Vector3(5, -1, -10));
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -60,21 +60,40 @@ window.addEventListener('resize', windowResizeHandler, false);
 var text;
 var geometry;
 
+
 var color = new Color();
-color.setRGB(0, 0, 1);
+color.setRGB(1, 0, 0);
 var textMaterial = new MeshBasicMaterial({ color: color });
+var texts = [scene.textPositions.length];
 
 var fontLoader = new FontLoader();
 fontLoader.load("./node_modules/three/examples/fonts/helvetiker_regular.typeface.json", function (tex) {
-    geometry = new TextGeometry('Test', {
-        size: .5,
-        height: .3,
+    geometry = new TextGeometry('Question', {
+        size: .3,
+        height: .2,
+        curveSegments: 6,
+        font: tex,
+    });
+    //console.log("meep", scene.textPositions.length);
+
+
+    //console.log("meep", scene.textPositions.length());
+    for (let i = 0; i < scene.textPositions.length; i++) {
+        texts[i] = new Mesh(geometry, textMaterial);
+        scene.add(texts[i]);
+        texts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y, scene.textPositions[i].z);
+    }
+
+    geometry = new TextGeometry('center', {
+        size: .3,
+        height: .2,
         curveSegments: 6,
         font: tex,
     });
 
     text = new Mesh(geometry, textMaterial);
     scene.add(text);
+
 })
 
 
