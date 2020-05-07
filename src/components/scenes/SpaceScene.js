@@ -36,8 +36,6 @@ class SpaceScene extends Scene {
         //nature.position = new BABYLON.Vector3(0, -10, 0);
         //const flower = new Flower(this);
         const lights = new BasicLights();
-        //var landLoc = nature.position;
-        console.log(nature);
         //this.add(box1, box2, box3, box4, box5);
         this.add(lights, nature);
         //box1.position.set(7, -1, -4);
@@ -50,12 +48,6 @@ class SpaceScene extends Scene {
         this.textPositions.push(new Vector3(5, -1, -10));
         this.textPositions.push(new Vector3(3, 4, -12));
         this.textPositions.push(new Vector3(-0.8, 7.8, -12));
-        //console.log(this.textPositions);
-
-
-
-        // box4.position.set(0, 0, 10);
-        // box5.position.set(-4, 0, 4);
 
         // this.scene1Container = new Object3D();
         // this.scene1Container.add(box1);
@@ -65,8 +57,6 @@ class SpaceScene extends Scene {
         // Populate GUI
         //this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
-
-    
 
     addToUpdateList(object) {
         this.state.updateList.push(object);
