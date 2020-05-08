@@ -104,7 +104,7 @@ fontLoader.load("./node_modules/three/examples/fonts/helvetiker_regular.typeface
 
 
 
-// helper color functions;
+// helper color functions
 function hslToRgb(data) {
 
     var h = data[0];
@@ -155,5 +155,3 @@ function rgbToHsl(data) {
     }
     return [h, s, l];
 };
-
-
