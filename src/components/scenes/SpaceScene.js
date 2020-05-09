@@ -1,7 +1,7 @@
 
 import * as Dat from 'dat.gui';
 import * as BABYLON from 'babylonjs';
-import { Scene, Mesh, Color, Object3D, Vector3, FontLoader, TextGeometry } from 'three';
+import { Scene, Mesh, Geometry, Points, PointsMaterial, Color, Object3D, Vector3, FontLoader, TextGeometry } from 'three';
 //import { helvetika } from 'three/examples/fonts/helvetiker_regular.typeface.json';
 import { Land, Flower, Box, Nature } from 'objects';
 import { BasicLights } from 'lights';
@@ -20,20 +20,20 @@ class SpaceScene extends Scene {
 
         // star background
         var starGeo = new Geometry();
-        for(let i = 0; i < 6000; i++) {
+        for (let i = 0; i < 6000; i++) {
             let star = new Vector3(
-              Math.random() * 600 - 300,
-              Math.random() * 600 - 300,
-              Math.random() * 600 - 300
+                Math.random() * 600 - 300,
+                Math.random() * 600 - 300,
+                Math.random() * 600 - 300
             );
             starGeo.vertices.push(star);
-          }
-          let starMaterial = new PointsMaterial({
+        }
+        let starMaterial = new PointsMaterial({
             color: 0xFFFFFF,
             size: 0.7
-          });
+        });
 
-        var stars = new Points(starGeo,starMaterial);
+        var stars = new Points(starGeo, starMaterial);
         // Set background to a nice color
         this.background = new Color(0x001933);
         this.add(stars);
