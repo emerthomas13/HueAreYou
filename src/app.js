@@ -14,6 +14,10 @@ import { SpaceScene } from 'scenes';
 const scene = new SpaceScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
+const EPS = 0.00005;
+var update = false;
+var nextPos = -1;
+var dX, dY, dZ;
 
 // Set up camera
 camera.position.set(6, 3, -10);
@@ -36,8 +40,47 @@ controls.minDistance = 4;
 controls.maxDistance = 16;
 controls.update();
 
+window.addEventListener("click", clicks, false);
+function clicks(event){
+  if(event) {
+    update = true;
+    nextPos++;
+    if(nextPos < scene.cameraPositions.length){
+      camUpdate(scene.cameraPositions[nextPos]);
+    }
+  }
+}
+
+function camUpdate(position){
+  console.log(position.x);
+  dX = (position.x - camera.position.x)/150;
+  dY = (position.y - camera.position.y)/150;
+  dZ = (position.z - camera.position.z)/150;
+}
+
+//camera update position
+function camUpdatePos(position) {
+  //variable camera change
+  if(Math.abs(camera.position.x - position.x) > EPS){
+    camera.position.x = camera.position.x + dX;
+  }
+  if(Math.abs(camera.position.y - position.y) > EPS){
+    camera.position.y = camera.position.y + dY;
+  }
+  if(Math.abs(camera.position.z - position.z) > EPS){
+    camera.position.z = camera.position.z + dZ;
+  }
+  if(Math.abs(camera.position.distanceTo(position)) < EPS) {
+    console.log(camera.position);
+    update = false;
+  }
+}
+
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
+  if(update && (nextPos < scene.cameraPositions.length)){
+    camUpdatePos(scene.cameraPositions[nextPos]);
+  }
     controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
@@ -88,6 +131,7 @@ fontLoader.load("./node_modules/three/examples/fonts/helvetiker_regular.typeface
         texts[i] = new Mesh(geometry, textMaterial);
         scene.add(texts[i]);
         texts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y, scene.textPositions[i].z);
+        texts[i].lookAt(scene.lookAtPositions[i]);
     }
 
     geometry = new TextGeometry('center', {
