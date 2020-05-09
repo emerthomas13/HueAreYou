@@ -19,6 +19,7 @@ var update = false;
 var nextPos = -1;
 var dX, dY, dZ;
 
+
 // Set up camera
 camera.position.set(6, 3, -10);
 camera.lookAt(new Vector3(-5, 0, -5));
@@ -41,46 +42,46 @@ controls.maxDistance = 16;
 controls.update();
 
 window.addEventListener("click", clicks, false);
-function clicks(event){
-  if(event) {
-    update = true;
-    nextPos++;
-    if(nextPos < scene.cameraPositions.length){
-      camUpdate(scene.cameraPositions[nextPos]);
+function clicks(event) {
+    if (event) {
+        update = true;
+        nextPos++;
+        if (nextPos < scene.cameraPositions.length) {
+            camUpdate(scene.cameraPositions[nextPos]);
+        }
     }
-  }
 }
 
-function camUpdate(position){
-  console.log(position.x);
-  dX = (position.x - camera.position.x)/150;
-  dY = (position.y - camera.position.y)/150;
-  dZ = (position.z - camera.position.z)/150;
+function camUpdate(position) {
+    console.log(position.x);
+    dX = (position.x - camera.position.x) / 150;
+    dY = (position.y - camera.position.y) / 150;
+    dZ = (position.z - camera.position.z) / 150;
 }
 
 //camera update position
 function camUpdatePos(position) {
-  //variable camera change
-  if(Math.abs(camera.position.x - position.x) > EPS){
-    camera.position.x = camera.position.x + dX;
-  }
-  if(Math.abs(camera.position.y - position.y) > EPS){
-    camera.position.y = camera.position.y + dY;
-  }
-  if(Math.abs(camera.position.z - position.z) > EPS){
-    camera.position.z = camera.position.z + dZ;
-  }
-  if(Math.abs(camera.position.distanceTo(position)) < EPS) {
-    console.log(camera.position);
-    update = false;
-  }
+    //variable camera change
+    if (Math.abs(camera.position.x - position.x) > EPS) {
+        camera.position.x = camera.position.x + dX;
+    }
+    if (Math.abs(camera.position.y - position.y) > EPS) {
+        camera.position.y = camera.position.y + dY;
+    }
+    if (Math.abs(camera.position.z - position.z) > EPS) {
+        camera.position.z = camera.position.z + dZ;
+    }
+    if (Math.abs(camera.position.distanceTo(position)) < EPS) {
+        console.log(camera.position);
+        update = false;
+    }
 }
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-  if(update && (nextPos < scene.cameraPositions.length)){
-    camUpdatePos(scene.cameraPositions[nextPos]);
-  }
+    if (update && (nextPos < scene.cameraPositions.length)) {
+        camUpdatePos(scene.cameraPositions[nextPos]);
+    }
     controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
@@ -99,39 +100,103 @@ windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 
 
-// deal with color
-var hue = Math.random();
+// You hear the howl of a dangerous monster in the distance. \n What do you do?
+// Take off before its too late.
+// Pause and make a plan.
+
+// Some friends meet you on the road. \n Who do you bring along for the journey?
+// Friend with more resources.
+// Friend with more talent.
+
+// Along the way you must train and study. \n Which course do you select?
+// Train with sword, study defensive spells.
+// Train with shield, study offensive spells.
+
+// As you grow closer, voices scream your worst nightmares. \n What do you hear?
+// That you will never do good.
+// That you will never have power.
+
+// Your color is:
+
+
+
+
+var val = [0, 0, 0];
+// deal with color based on responses
+function findColor(val) {
+    var hue = Math.random() * 0.125;
+    // roughly yellow [0.125 - 0.25]
+    if (val[0] == 0 && val[1] == 1 && val[2] == 1) {
+        hue += 0.125;
+    }
+    // roughly green [0.25 - 0.375]
+    else if (val[0] == 1 && val[1] == 1 && val[2] == 1) {
+        hue += 0.25;
+    }
+    // roughly aqua [0.375 - 0.5]
+    else if (val[0] == 1 && val[1] == 1 && val[2] == 0) {
+        hue += 0.375;
+    }
+    // roughly blue [0.5 - 0.625]
+    else if (val[0] == 1 && val[1] == 0 && val[2] == 0) {
+        hue += 0.5;
+    }
+    // roughly dark purple [0.625 - 0.75]
+    else if (val[0] == 1 && val[1] == 0 && val[2] == 1) {
+        hue += 0.625;
+    }
+    // roughly purple/ pink [0.75 - 0.875]
+    else if (val[0] == 0 && val[1] == 0 && val[2] == 1) {
+        hue += 0.75;
+    }
+    // roughly pink/red [0.875 - 1.0]
+    else if (val[0] == 0 && val[1] == 0 && val[2] == 0) {
+        hue += 0.875;
+    }
+    // else roughly orange [0 - 0.125]
+    // if (val[0] == 0 && val[1] == 1 && val[2] == 0) {
+    //     hue = Math.random() * 0.125;
+    // }
+    return hue;
+}
+var hue = findColor(val);
+// TODO set based on q4 result
 var lightness = 0.5;
 var hslCustom = [hue, 1, lightness];
 var rgbCustom = hslToRgb(hslCustom);
 var customColor = new Color();
 customColor.setRGB(rgbCustom[0], rgbCustom[1], rgbCustom[2]);
-console.log(customColor);
+//console.log(customColor);
 
 
 
-// adding text for question
+// adding text for questions
+
+var qstr = 'You hear the howl of a \n dangerous monster in the distance. \n What do you do?|Some friends meet you \n on the road. Who do you bring \n along for the journey?|Along the way you must \ntrain and study. Which \n course do you select?|As you grow closer, voices \n scream your worst nightmares. \n What do you hear?|Your color is:';
+var questionContents = qstr.split('|');
+
 var text;
 var geometry;
 
 var color = new Color();
 color.setRGB(1, 0, 0);
 var textMaterial = new MeshBasicMaterial({ color: customColor });
-var texts = [scene.textPositions.length];
+var questionTexts = [scene.textPositions.length];
 
 var fontLoader = new FontLoader();
-fontLoader.load("./node_modules/three/examples/fonts/helvetiker_regular.typeface.json", function (tex) {
-    geometry = new TextGeometry('Question', {
-        size: .3,
-        height: .2,
-        curveSegments: 6,
-        font: tex,
-    });
+fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.json", function (tex) {
     for (let i = 0; i < scene.textPositions.length; i++) {
-        texts[i] = new Mesh(geometry, textMaterial);
-        scene.add(texts[i]);
-        texts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y, scene.textPositions[i].z);
-        texts[i].lookAt(scene.lookAtPositions[i]);
+        geometry = new TextGeometry(questionContents[i], {
+            size: .2,
+            height: .2,
+            curveSegments: 4,
+            font: tex,
+        });
+
+        questionTexts[i] = new Mesh(geometry, textMaterial);
+        scene.add(questionTexts[i]);
+        questionTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y, scene.textPositions[i].z);
+        questionTexts[i].lookAt(scene.lookAtPositions[i]);
     }
 
     geometry = new TextGeometry('center', {
