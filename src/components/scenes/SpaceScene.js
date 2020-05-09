@@ -48,6 +48,7 @@ class SpaceScene extends Scene {
         const nature = new Nature();
         this.nature = nature;
         this.textPositions = [];
+        this.cameraPositions = [];
         this.lookAtPositions = [];
         //console.log(nature.position);
 
@@ -67,6 +68,12 @@ class SpaceScene extends Scene {
         this.textPositions.push(new Vector3(3, 4, 3));
         this.textPositions.push(new Vector3(-0.8, 7.8, 3));
 
+        this.cameraPositions.push(new Vector3(-2.2 ,-0.8, 9.1));
+        this.cameraPositions.push(new Vector3(7.1, -1.2, 12.4));
+        this.cameraPositions.push(new Vector3(5.7, -0.4, -0.9));
+        this.cameraPositions.push(new Vector3(6.7, 7, 4));
+        this.cameraPositions.push(new Vector3(0.6, 11.8, 4.7));
+        this.cameraPositions.push(new Vector3(-5.0, -1.3, 9.1));
 
         this.lookAtPositions.push(new Vector3(-15, -1, 55));
         this.lookAtPositions.push(new Vector3(15.7, -1, 30));
