@@ -18,8 +18,25 @@ class SpaceScene extends Scene {
             updateList: [],
         };
 
+        // star background
+        var starGeo = new Geometry();
+        for(let i = 0; i < 6000; i++) {
+            let star = new Vector3(
+              Math.random() * 600 - 300,
+              Math.random() * 600 - 300,
+              Math.random() * 600 - 300
+            );
+            starGeo.vertices.push(star);
+          }
+          let starMaterial = new PointsMaterial({
+            color: 0xFFFFFF,
+            size: 0.7
+          });
+
+        var stars = new Points(starGeo,starMaterial);
         // Set background to a nice color
-        this.background = new Color(0x0000FF);
+        this.background = new Color(0x001933);
+        this.add(stars);
 
         // Add meshes to scene
         //const land = new Land();
@@ -31,6 +48,7 @@ class SpaceScene extends Scene {
         const nature = new Nature();
         this.nature = nature;
         this.textPositions = [];
+        this.lookAtPositions = [];
         //console.log(nature.position);
 
         //nature.position = new BABYLON.Vector3(0, -10, 0);
@@ -43,11 +61,18 @@ class SpaceScene extends Scene {
         //box2.position.set(3, 4, -12);
         //box3.position.set(5, -1, -10);
         //box4.position.set(-0.8, 7.8, -12);
-        this.textPositions.push(new Vector3(-2.4, -1, -5));
-        this.textPositions.push(new Vector3(7, -1, -4));
-        this.textPositions.push(new Vector3(5, -1, -10));
-        this.textPositions.push(new Vector3(3, 4, -12));
-        this.textPositions.push(new Vector3(-0.8, 7.8, -12));
+        this.textPositions.push(new Vector3(-2.4, -1, 6.9));
+        this.textPositions.push(new Vector3(5.5, -1.2, 11));
+        this.textPositions.push(new Vector3(3.8, -0.5, 0.3));
+        this.textPositions.push(new Vector3(3, 4, 3));
+        this.textPositions.push(new Vector3(-0.8, 7.8, 3));
+
+
+        this.lookAtPositions.push(new Vector3(-15, -1, 55));
+        this.lookAtPositions.push(new Vector3(15.7, -1, 30));
+        this.lookAtPositions.push(new Vector3(36, 1, -10));
+        this.lookAtPositions.push(new Vector3(7, 6, 5));
+        this.lookAtPositions.push(new Vector3(1, 20, 10));
 
         // this.scene1Container = new Object3D();
         // this.scene1Container.add(box1);
