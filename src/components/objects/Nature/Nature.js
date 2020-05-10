@@ -10,12 +10,11 @@ class Nature extends Group {
         const loader = new GLTFLoader();
 
         this.name = 'nature';
+        this.off = [0, -25, 0];
 
         loader.load(MODEL, (gltf) => {
             gltf.scene.position.set(0, -25, 0);
             this.add(gltf.scene);
-
-
         });
     }
 }

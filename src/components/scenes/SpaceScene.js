@@ -41,6 +41,7 @@ class SpaceScene extends Scene {
         const nature = new Nature();
         //const forest = new Forest();
         this.nature = nature;
+        console.log(nature.pos);
         this.textPositions = [];
         this.cameraPositions = [];
         this.lookAtPositions = [];

@@ -6,14 +6,14 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, Object3D, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry, Vector2, Raycaster } from 'three';
+import { WebGLRenderer, Object3D, BoxGeometry, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry, Vector2, Raycaster } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SpaceScene } from 'scenes';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
 
 // Initialize core ThreeJS components
 const scene = new SpaceScene();
-console.log(scene);
+//console.log(scene);
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 const EPS = 0.00005;
@@ -26,7 +26,8 @@ var groupC = new TWEEN.Group();
 var groupD = new TWEEN.Group();
 var groupE = new TWEEN.Group();
 var groupF = new TWEEN.Group();
-
+var colorVals = [0, 0, 0];
+var colorLight = Math.random() * 0.5;
 
 // Set up camera
 camera.position.set(6, 3, -10);
@@ -50,39 +51,65 @@ controls.maxDistance = 16;
 controls.update();
 
 window.addEventListener("click", clicks, false);
+
+function firstclick(event) {
+    updateA = true;
+}
 function clicks(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(scene.children);
     var object;
-    if (event) {
+    if (event && intersects.length > 0) {
         for (var i = 0; i < intersects.length; i++) {
             object = intersects[i].object.id;
-            if (object == 25) {
-                updateA = true;
-                i++
-            }
-            else if (object == 20 && !updateA) {
+            // if (object == 20) {
+            //     updateA = true;
+            //     i++
+            // }
+            if (object == 21 && !updateA) {
                 updateB = true;
                 i++
             }
-            else if (object == 21 && !updateB) {
+            else if (object == 22 && !updateA) {
+                colorVals[0] = 1;
+                updateB = true;
+                i++
+            }
+            else if (object == 24 && !updateB) {
                 updateC = true;
                 i++
             }
-            else if (object == 22 && !updateC) {
+            else if (object == 25 && !updateB) {
+                colorVals[1] = 1;
+                updateC = true;
+                i++
+            }
+            else if (object == 27 && !updateC) {
                 updateD = true;
                 i++
             }
-            else if (object == 23 && !updateD) {
+            else if (object == 28 && !updateC) {
+                colorVals[2] = 2;
+                updateD = true;
+                i++
+            }
+            else if (object == 30 && !updateD) {
+                makeShape(colorVals, colorLight);
                 updateE = true;
                 i++
             }
-            else if (object == 24 && !updateE) {
-                updateF = true;
+            else if (object == 31 && !updateD) {
+                colorLight = Math.random() * 0.5 + 0.5;
+                makeShape(colorVals, colorLight);
+                updateE = true;
                 i++
             }
+            // else if (object == 32 && !updateE) {
+            //     updateF = true;
+            //     i++
+            // }
         }
     }
 }
@@ -225,27 +252,6 @@ windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 
 
-// You hear the howl of a dangerous monster in the distance. \n What do you do?
-// Take off before its too late.
-// Pause and make a plan.
-
-// Some friends meet you on the road. \n Who do you bring along for the journey?
-// Friend with more resources.
-// Friend with more talent.
-
-// Along the way you must train and study. \n Which course do you select?
-// Train with sword, study defensive spells.
-// Train with shield, study offensive spells.
-
-// As you grow closer, voices scream your worst nightmares. \n What do you hear?
-// That you will never do good.
-// That you will never have power.
-
-// Your color is:
-
-
-
-
 var val = [0, 0, 0];
 // deal with color based on responses
 function findColor(val) {
@@ -284,15 +290,38 @@ function findColor(val) {
     // }
     return hue;
 }
-var hue = findColor(val);
-// TODO set based on q4 result
-var lightness = 0.5;
-var hslCustom = [hue, 1, lightness];
-var rgbCustom = hslToRgb(hslCustom);
-var customColor = new Color();
-customColor.setRGB(rgbCustom[0], rgbCustom[1], rgbCustom[2]);
-//console.log(customColor);
 
+function makeShape(val, colorLight) {
+    var hue = findColor(val);
+    // TODO set based on q4 result
+    //var lightness = 0.5;
+    var hslCustom = [hue, 1, colorLight];
+    var rgbCustom = hslToRgb(hslCustom);
+    var customColor = new Color();
+    customColor.setRGB(rgbCustom[0], rgbCustom[1], rgbCustom[2]);
+    //console.log(customColor);
+    var geo = new BoxGeometry(0.5, 0.5, 0.5);
+
+    var mat = new MeshBasicMaterial({ color: customColor });
+    var cube = new Mesh(geo, mat);
+    scene.add(cube);
+    var last = scene.textPositions[scene.textPositions.length - 1];
+    cube.position.set(last.x + 2, last.y, last.z, +1);
+    var resultText;
+
+    var fontLoader = new FontLoader();
+    fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.json", function (tex) {
+        var geometry = new TextGeometry(hue.toString(), {
+            size: 0.2,
+            height: 0.08,
+            curveSegments: 4,
+            font: tex,
+        });
+        resultText = new Mesh(geometry, mat);
+        scene.add(resultText);
+        resultText.position.set(last.x + 2, last.y + 1, last.z, +1);
+    })
+}
 
 
 // adding text for questions
@@ -304,8 +333,8 @@ const astr = 'a) Take off before its too late | a) Friend with more resources | 
 var answerContents = astr.split('|');
 const bstr = 'b) Pause and make a plan | b) Friend with more talent | b) Carry shield, study offensive spells | b) That you will never have power ';
 var banswerContents = bstr.split('|');
-answerContents.push(hue.toString());
-banswerContents.push(lightness.toString());
+answerContents.push("");
+banswerContents.push("");
 
 var text;
 var geometry;
@@ -314,10 +343,14 @@ var bgeometry;
 
 var place = 0;
 var color = new Color();
-color.setRGB(1, 1, 1);
-var textMaterial = new MeshBasicMaterial({ color: customColor });
-var textMaterial2 = new MeshBasicMaterial({ color: color });
-//var textMaterial3 = new MeshBasicMaterial({ color: customColor });
+var color2 = new Color();
+var color3 = new Color();
+color.setRGB(1, 1, 0);
+color2.setRGB(1, 0, 1);
+color3.setRGB(0, 1, 1);
+var textMaterial = new MeshBasicMaterial({ color: color });
+var textMaterial2 = new MeshBasicMaterial({ color: color2 });
+var textMaterial3 = new MeshBasicMaterial({ color: color3 });
 var questionTexts = [scene.textPositions.length];
 var answerTexts = [scene.textPositions.length];
 var banswerTexts = [scene.textPositions.length];
@@ -327,26 +360,29 @@ fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.j
     for (let i = 0; i < scene.textPositions.length; i++) {
         geometry = new TextGeometry(questionContents[i], {
             size: 0.1,
-            height: 0.1,
+            height: 0.05,
             curveSegments: 4,
             font: tex,
+            bevelThickness: 1,
+            bevelSize: 0.1,
+            bevelSegments: 5,
         });
         ageometry = new TextGeometry(answerContents[i], {
-            size: 0.1,
-            height: 0.1,
+            size: 0.09,
+            height: 0.03,
             curveSegments: 4,
             font: tex,
         });
         bgeometry = new TextGeometry(banswerContents[i], {
-            size: 0.1,
-            height: 0.1,
+            size: 0.09,
+            height: 0.03,
             curveSegments: 4,
             font: tex,
         });
         questionTexts[i] = new Mesh(geometry, textMaterial);
 
         answerTexts[i] = new Mesh(ageometry, textMaterial2);
-        banswerTexts[i] = new Mesh(bgeometry, textMaterial2);
+        banswerTexts[i] = new Mesh(bgeometry, textMaterial3);
 
 
         scene.add(questionTexts[i], answerTexts[i], banswerTexts[i]);
@@ -369,7 +405,6 @@ fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.j
     // scene.add(text);
 
 })
-
 
 
 // helper color functions
