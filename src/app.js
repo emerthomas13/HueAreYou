@@ -13,6 +13,7 @@ import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
 
 // Initialize core ThreeJS components
 const scene = new SpaceScene();
+console.log(scene);
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 const EPS = 0.00005;
@@ -58,27 +59,27 @@ function clicks(event) {
     if (event) {
         for (var i = 0; i < intersects.length; i++) {
             object = intersects[i].object.id;
-            if (object == 45) {
+            if (object == 25) {
                 updateA = true;
                 i++
             }
-            else if (object == 40 && !updateA) {
+            else if (object == 20 && !updateA) {
                 updateB = true;
                 i++
             }
-            else if (object == 41 && !updateB) {
+            else if (object == 21 && !updateB) {
                 updateC = true;
                 i++
             }
-            else if (object == 42 && !updateC) {
+            else if (object == 22 && !updateC) {
                 updateD = true;
                 i++
             }
-            else if (object == 43 && !updateD) {
+            else if (object == 23 && !updateD) {
                 updateE = true;
                 i++
             }
-            else if (object == 44 && !updateE) {
+            else if (object == 24 && !updateE) {
                 updateF = true;
                 i++
             }
