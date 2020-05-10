@@ -9,7 +9,7 @@
 import { WebGLRenderer, Object3D, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry, Vector2, Raycaster } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SpaceScene } from 'scenes';
-import {TWEEN} from 'three/examples/jsm/libs/tween.module.min'
+import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
 
 // Initialize core ThreeJS components
 const scene = new SpaceScene();
@@ -30,7 +30,7 @@ var groupF = new TWEEN.Group();
 // Set up camera
 camera.position.set(6, 3, -10);
 camera.lookAt(new Vector3(-5, 0, -5));
-console.log(camera);
+//console.log(camera);
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -49,41 +49,41 @@ controls.maxDistance = 16;
 controls.update();
 
 window.addEventListener("click", clicks, false);
-function clicks(event){
-  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-  raycaster.setFromCamera(mouse, camera);
-  var intersects = raycaster.intersectObjects(scene.children);
-  var object;
-  if(event) {
-    for(var i = 0; i < intersects.length; i++) {
-      object = intersects[i].object.id;
-      if (object == 45) {
-        updateA = true;
-        i++
-      }
-      else if ( object == 40 && !updateA) {
-        updateB = true;
-        i++
-      }
-      else if ( object == 41 && !updateB) {
-        updateC = true;
-        i++
-      }
-      else if (object == 42 && !updateC) {
-        updateD = true;
-        i++
-      }
-      else if ( object == 43 && !updateD) {
-        updateE = true;
-        i++
-      }
-      else if ( object == 44 && !updateE) {
-        updateF = true;
-        i++
-      }
+function clicks(event) {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    var intersects = raycaster.intersectObjects(scene.children);
+    var object;
+    if (event) {
+        for (var i = 0; i < intersects.length; i++) {
+            object = intersects[i].object.id;
+            if (object == 45) {
+                updateA = true;
+                i++
+            }
+            else if (object == 40 && !updateA) {
+                updateB = true;
+                i++
+            }
+            else if (object == 41 && !updateB) {
+                updateC = true;
+                i++
+            }
+            else if (object == 42 && !updateC) {
+                updateD = true;
+                i++
+            }
+            else if (object == 43 && !updateD) {
+                updateE = true;
+                i++
+            }
+            else if (object == 44 && !updateE) {
+                updateF = true;
+                i++
+            }
+        }
     }
-  }
 }
 // set up transitions
 var currentCam = {
@@ -99,80 +99,80 @@ var pos4 = { x: 6.7, y: 7, z: 4 };
 var pos5 = { x: 0.6, y: 11.8, z: 4.7 };
 var pos6 = { x: -5.0, y: -1.3, z: 9.1 };
 
-var tweenA = new TWEEN.Tween(currentCam,groupA)
+var tweenA = new TWEEN.Tween(currentCam, groupA)
     .to(pos1, 6000)
-    .onUpdate(function() {
-      camera.position.set(currentCam.x, currentCam.y, currentCam.z);
-      //console.log(currentCam.x);
+    .onUpdate(function () {
+        camera.position.set(currentCam.x, currentCam.y, currentCam.z);
+        //console.log(currentCam.x);
     })
-    .onComplete(function() {
-      updateA = false;
-      console.log("A complete");
+    .onComplete(function () {
+        updateA = false;
+        console.log("A complete");
     })
     .easing(TWEEN.Easing.Elastic.InOut)
     .delay(10000)
     .start();
 
-var tweenB = new TWEEN.Tween(pos1,groupB)
+var tweenB = new TWEEN.Tween(pos1, groupB)
     .to(pos2, 6000)
-    .onUpdate(function() {
-      camera.position.set(pos1.x, pos1.y, pos1.z);
+    .onUpdate(function () {
+        camera.position.set(pos1.x, pos1.y, pos1.z);
     })
-    .onComplete(function(){
-      updateB = false;
-      console.log("B complete");
+    .onComplete(function () {
+        updateB = false;
+        console.log("B complete");
     })
     .easing(TWEEN.Easing.Elastic.InOut)
     .delay(10000)
     .start();
 
 
-var tweenC = new TWEEN.Tween(pos2,groupC)
+var tweenC = new TWEEN.Tween(pos2, groupC)
     .to(pos3, 6000)
-    .onUpdate(function() {
-      camera.position.set(pos2.x, pos2.y, pos2.z);
+    .onUpdate(function () {
+        camera.position.set(pos2.x, pos2.y, pos2.z);
     })
-    .onComplete(function(){
-      updateC = false;
-      console.log("C complete");
+    .onComplete(function () {
+        updateC = false;
+        console.log("C complete");
     })
     .easing(TWEEN.Easing.Elastic.InOut)
     .delay(10000)
     .start();
 
-var tweenD = new TWEEN.Tween(pos3,groupD)
+var tweenD = new TWEEN.Tween(pos3, groupD)
     .to(pos4, 6000)
-    .onUpdate(function() {
-      camera.position.set(pos3.x, pos3.y, pos3.z);
+    .onUpdate(function () {
+        camera.position.set(pos3.x, pos3.y, pos3.z);
     })
-    .onComplete(function(){
-      console.log("D complete");
-      updateD = false;
+    .onComplete(function () {
+        console.log("D complete");
+        updateD = false;
     })
     .easing(TWEEN.Easing.Elastic.InOut)
     .delay(10000)
     .start();
 
-var tweenE = new TWEEN.Tween(pos4,groupE)
+var tweenE = new TWEEN.Tween(pos4, groupE)
     .to(pos5, 6000)
-    .onUpdate(function() {
-      camera.position.set(pos4.x, pos4.y, pos4.z);
+    .onUpdate(function () {
+        camera.position.set(pos4.x, pos4.y, pos4.z);
     })
-    .onComplete(function(){
-      console.log("E complete");
-      updateE = false;
+    .onComplete(function () {
+        console.log("E complete");
+        updateE = false;
     })
     .easing(TWEEN.Easing.Elastic.InOut)
     .delay(10000)
     .start();
-var tweenF = new TWEEN.Tween(pos5,groupF)
+var tweenF = new TWEEN.Tween(pos5, groupF)
     .to(pos6, 6000)
-    .onUpdate(function() {
-      camera.position.set(pos5.x, pos5.y, pos5.z);
+    .onUpdate(function () {
+        camera.position.set(pos5.x, pos5.y, pos5.z);
     })
-    .onComplete(function(){
-      console.log("F complete");
-      updateF = false;
+    .onComplete(function () {
+        console.log("F complete");
+        updateF = false;
     })
     .easing(TWEEN.Easing.Back.InOut)
     .delay(10000)
@@ -185,27 +185,27 @@ tweenE.chain(tweenF);
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-  if(updateA) groupA.update();
-  else if(updateB) {
-    tweenA.stop();
-    groupB.update();
-  }
-  else if(updateC) {
-    tweenB.stop();
-    groupC.update();
-  }
-  else if(updateD) {
-    tweenC.stop();
-    groupD.update();
-  }
-  else if(updateE) {
-    tweenD.stop();
-    groupE.update();
-  }
-  else if(updateF) {
-    tweenE.stop();
-    groupF.update();
-  }
+    if (updateA) groupA.update();
+    else if (updateB) {
+        tweenA.stop();
+        groupB.update();
+    }
+    else if (updateC) {
+        tweenB.stop();
+        groupC.update();
+    }
+    else if (updateD) {
+        tweenC.stop();
+        groupD.update();
+    }
+    else if (updateE) {
+        tweenD.stop();
+        groupE.update();
+    }
+    else if (updateF) {
+        tweenE.stop();
+        groupF.update();
+    }
     controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
@@ -296,43 +296,76 @@ customColor.setRGB(rgbCustom[0], rgbCustom[1], rgbCustom[2]);
 
 // adding text for questions
 
-var qstr = 'You hear the howl of a \n dangerous monster in the distance. \n What do you do?|Some friends meet you \n on the road. Who do you bring \n along for the journey?|Along the way you must \ntrain and study. Which \n course do you select?|As you grow closer, voices \n scream your worst nightmares. \n What do you hear?|Your color is:';
+const qstr = 'You hear the howl of a \n dangerous monster in the distance. \n What do you do?|Some friends meet you \n on the road. Who do you bring \n along for the journey?|Along the way you must \ntrain and study. Which \n course do you select?|As you grow closer, voices \n scream your worst nightmares. \n What do you hear?|Your color is:';
 var questionContents = qstr.split('|');
+
+const astr = 'a) Take off before its too late | a) Friend with more resources | a) Carry sword, study defensive spells | a) That you will never do good';
+var answerContents = astr.split('|');
+const bstr = 'b) Pause and make a plan | b) Friend with more talent | b) Carry shield, study offensive spells | b) That you will never have power ';
+var banswerContents = bstr.split('|');
+answerContents.push(hue.toString());
+banswerContents.push(lightness.toString());
 
 var text;
 var geometry;
+var ageometry;
+var bgeometry;
 
+var place = 0;
 var color = new Color();
-color.setRGB(1, 0, 0);
+color.setRGB(1, 1, 1);
 var textMaterial = new MeshBasicMaterial({ color: customColor });
+var textMaterial2 = new MeshBasicMaterial({ color: color });
+//var textMaterial3 = new MeshBasicMaterial({ color: customColor });
 var questionTexts = [scene.textPositions.length];
+var answerTexts = [scene.textPositions.length];
+var banswerTexts = [scene.textPositions.length];
 
 var fontLoader = new FontLoader();
 fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.json", function (tex) {
     for (let i = 0; i < scene.textPositions.length; i++) {
         geometry = new TextGeometry(questionContents[i], {
-            size: .2,
-            height: .2,
+            size: 0.1,
+            height: 0.1,
             curveSegments: 4,
             font: tex,
         });
-
+        ageometry = new TextGeometry(answerContents[i], {
+            size: 0.1,
+            height: 0.1,
+            curveSegments: 4,
+            font: tex,
+        });
+        bgeometry = new TextGeometry(banswerContents[i], {
+            size: 0.1,
+            height: 0.1,
+            curveSegments: 4,
+            font: tex,
+        });
         questionTexts[i] = new Mesh(geometry, textMaterial);
-        scene.add(questionTexts[i]);
+
+        answerTexts[i] = new Mesh(ageometry, textMaterial2);
+        banswerTexts[i] = new Mesh(bgeometry, textMaterial2);
+
+
+        scene.add(questionTexts[i], answerTexts[i], banswerTexts[i]);
+
         questionTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y, scene.textPositions[i].z);
+        answerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 0.75, scene.textPositions[i].z);
+        banswerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 1, scene.textPositions[i].z);
         questionTexts[i].lookAt(scene.lookAtPositions[i]);
     }
 
-    geometry = new TextGeometry('center', {
-        size: .3,
-        height: .2,
-        curveSegments: 6,
-        font: tex,
-    });
+    // geometry = new TextGeometry('center', {
+    //     size: .3,
+    //     height: .2,
+    //     curveSegments: 6,
+    //     font: tex,
+    // });
 
-    text = new Mesh(geometry, textMaterial);
-    text.position.set(5.6, -1, 4);
-    scene.add(text);
+    // text = new Mesh(geometry, textMaterial);
+    // text.position.set(5.6, -1, 4);
+    // scene.add(text);
 
 })
 

@@ -38,36 +38,25 @@ class SpaceScene extends Scene {
         this.background = new Color(0x001933);
         this.add(stars);
 
-        // Add meshes to scene
-        //const land = new Land();
-        const box1 = new Box();
-        const box2 = new Box();
-        const box3 = new Box();
-        const box4 = new Box();
-        const box5 = new Box();
         const nature = new Nature();
-        const forest = new Forest();
+        //const forest = new Forest();
         this.nature = nature;
         this.textPositions = [];
         this.cameraPositions = [];
         this.lookAtPositions = [];
-        //console.log(nature.position);
 
-        //nature.position = new BABYLON.Vector3(0, -10, 0);
-        //const flower = new Flower(this);
         const lights = new BasicLights();
-        //this.add(box1, box2, box3, box4, box5);
-        this.add(lights, nature, forest);
-        //box1.position.set(7, -1, -4);
-        //box5.position.set(-0.8, -1, -5);
-        //box2.position.set(3, 4, -12);
-        //box3.position.set(5, -1, -10);
-        //box4.position.set(-0.8, 7.8, -12);
-        this.textPositions.push(new Vector3(-2.4, -1, 6.9));
-        this.textPositions.push(new Vector3(5.5, -1.2, 11));
-        this.textPositions.push(new Vector3(3.8, -0.5, 0.3));
-        this.textPositions.push(new Vector3(3, 4, 3));
-        this.textPositions.push(new Vector3(-0.8, 7.8, 3));
+        this.add(lights, nature);
+
+        this.textPositions.push(new Vector3(-2, 1, -5));
+        //this.textPositions.push(new Vector3(5.5, -1.2, 11));
+        this.textPositions.push(new Vector3(4, 2, -3));
+        // this.textPositions.push(new Vector3(3.8, -0.5, 0.3));
+        // this.textPositions.push(new Vector3(3, 4, 3));
+        // this.textPositions.push(new Vector3(-0.8, 7.8, 3));
+        this.textPositions.push(new Vector3(7, 2, -8));
+        this.textPositions.push(new Vector3(5, 2, -12));
+        this.textPositions.push(new Vector3(-2, 7.8, -12));
 
         this.cameraPositions.push(new Vector3(-2.2, -0.8, 9.1));
         this.cameraPositions.push(new Vector3(7.1, -1.2, 12.4));
