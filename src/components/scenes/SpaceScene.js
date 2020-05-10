@@ -3,7 +3,7 @@ import * as Dat from 'dat.gui';
 import * as BABYLON from 'babylonjs';
 import { Scene, Mesh, Geometry, Points, PointsMaterial, Color, Object3D, Vector3, FontLoader, TextGeometry } from 'three';
 //import { helvetika } from 'three/examples/fonts/helvetiker_regular.typeface.json';
-import { Land, Flower, Box, Nature } from 'objects';
+import { Land, Flower, Box, Nature, Forest } from 'objects';
 import { BasicLights } from 'lights';
 
 class SpaceScene extends Scene {
@@ -46,6 +46,7 @@ class SpaceScene extends Scene {
         const box4 = new Box();
         const box5 = new Box();
         const nature = new Nature();
+        const forest = new Forest();
         this.nature = nature;
         this.textPositions = [];
         this.cameraPositions = [];
@@ -56,7 +57,7 @@ class SpaceScene extends Scene {
         //const flower = new Flower(this);
         const lights = new BasicLights();
         //this.add(box1, box2, box3, box4, box5);
-        this.add(lights, nature);
+        this.add(lights, nature, forest);
         //box1.position.set(7, -1, -4);
         //box5.position.set(-0.8, -1, -5);
         //box2.position.set(3, 4, -12);
@@ -68,7 +69,7 @@ class SpaceScene extends Scene {
         this.textPositions.push(new Vector3(3, 4, 3));
         this.textPositions.push(new Vector3(-0.8, 7.8, 3));
 
-        this.cameraPositions.push(new Vector3(-2.2 ,-0.8, 9.1));
+        this.cameraPositions.push(new Vector3(-2.2, -0.8, 9.1));
         this.cameraPositions.push(new Vector3(7.1, -1.2, 12.4));
         this.cameraPositions.push(new Vector3(5.7, -0.4, -0.9));
         this.cameraPositions.push(new Vector3(6.7, 7, 4));
