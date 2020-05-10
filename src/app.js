@@ -6,18 +6,25 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, Object3D, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry } from 'three';
+import { WebGLRenderer, Object3D, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry, Vector2, Raycaster } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SpaceScene } from 'scenes';
+import {TWEEN} from 'three/examples/jsm/libs/tween.module.min'
 
 // Initialize core ThreeJS components
 const scene = new SpaceScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 const EPS = 0.00005;
-var update = false;
-var nextPos = -1;
-var dX, dY, dZ;
+var updateA, updateB, updateC, updateD, updateE, updateF = false;
+var mouse = new Vector2();
+var raycaster = new Raycaster();
+var groupA = new TWEEN.Group();
+var groupB = new TWEEN.Group();
+var groupC = new TWEEN.Group();
+var groupD = new TWEEN.Group();
+var groupE = new TWEEN.Group();
+var groupF = new TWEEN.Group();
 
 
 // Set up camera
@@ -42,46 +49,163 @@ controls.maxDistance = 16;
 controls.update();
 
 window.addEventListener("click", clicks, false);
-function clicks(event) {
-    if (event) {
-        update = true;
-        nextPos++;
-        if (nextPos < scene.cameraPositions.length) {
-            camUpdate(scene.cameraPositions[nextPos]);
-        }
+function clicks(event){
+  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  var intersects = raycaster.intersectObjects(scene.children);
+  var object;
+  if(event) {
+    for(var i = 0; i < intersects.length; i++) {
+      object = intersects[i].object.id;
+      if (object == 45) {
+        updateA = true;
+        i++
+      }
+      else if ( object == 40 && !updateA) {
+        updateB = true;
+        i++
+      }
+      else if ( object == 41 && !updateB) {
+        updateC = true;
+        i++
+      }
+      else if (object == 42 && !updateC) {
+        updateD = true;
+        i++
+      }
+      else if ( object == 43 && !updateD) {
+        updateE = true;
+        i++
+      }
+      else if ( object == 44 && !updateE) {
+        updateF = true;
+        i++
+      }
     }
+  }
 }
+// set up transitions
+var currentCam = {
+    x: camera.position.x,
+    y: camera.position.y,
+    z: camera.position.z
+};
 
-function camUpdate(position) {
-    console.log(position.x);
-    dX = (position.x - camera.position.x) / 150;
-    dY = (position.y - camera.position.y) / 150;
-    dZ = (position.z - camera.position.z) / 150;
-}
+var pos1 = { x: -2.2, y: -0.8, z: 9.1 };
+var pos2 = { x: 7.1, y: -1.2, z: 12.4 };
+var pos3 = { x: 5.7, y: -0.4, z: -0.9 };
+var pos4 = { x: 6.7, y: 7, z: 4 };
+var pos5 = { x: 0.6, y: 11.8, z: 4.7 };
+var pos6 = { x: -5.0, y: -1.3, z: 9.1 };
 
-//camera update position
-function camUpdatePos(position) {
-    //variable camera change
-    if (Math.abs(camera.position.x - position.x) > EPS) {
-        camera.position.x = camera.position.x + dX;
-    }
-    if (Math.abs(camera.position.y - position.y) > EPS) {
-        camera.position.y = camera.position.y + dY;
-    }
-    if (Math.abs(camera.position.z - position.z) > EPS) {
-        camera.position.z = camera.position.z + dZ;
-    }
-    if (Math.abs(camera.position.distanceTo(position)) < EPS) {
-        console.log(camera.position);
-        update = false;
-    }
-}
+var tweenA = new TWEEN.Tween(currentCam,groupA)
+    .to(pos1, 6000)
+    .onUpdate(function() {
+      camera.position.set(currentCam.x, currentCam.y, currentCam.z);
+      //console.log(currentCam.x);
+    })
+    .onComplete(function() {
+      updateA = false;
+      console.log("A complete");
+    })
+    .easing(TWEEN.Easing.Elastic.InOut)
+    .delay(10000)
+    .start();
+
+var tweenB = new TWEEN.Tween(pos1,groupB)
+    .to(pos2, 6000)
+    .onUpdate(function() {
+      camera.position.set(pos1.x, pos1.y, pos1.z);
+    })
+    .onComplete(function(){
+      updateB = false;
+      console.log("B complete");
+    })
+    .easing(TWEEN.Easing.Elastic.InOut)
+    .delay(10000)
+    .start();
+
+
+var tweenC = new TWEEN.Tween(pos2,groupC)
+    .to(pos3, 6000)
+    .onUpdate(function() {
+      camera.position.set(pos2.x, pos2.y, pos2.z);
+    })
+    .onComplete(function(){
+      updateC = false;
+      console.log("C complete");
+    })
+    .easing(TWEEN.Easing.Elastic.InOut)
+    .delay(10000)
+    .start();
+
+var tweenD = new TWEEN.Tween(pos3,groupD)
+    .to(pos4, 6000)
+    .onUpdate(function() {
+      camera.position.set(pos3.x, pos3.y, pos3.z);
+    })
+    .onComplete(function(){
+      console.log("D complete");
+      updateD = false;
+    })
+    .easing(TWEEN.Easing.Elastic.InOut)
+    .delay(10000)
+    .start();
+
+var tweenE = new TWEEN.Tween(pos4,groupE)
+    .to(pos5, 6000)
+    .onUpdate(function() {
+      camera.position.set(pos4.x, pos4.y, pos4.z);
+    })
+    .onComplete(function(){
+      console.log("E complete");
+      updateE = false;
+    })
+    .easing(TWEEN.Easing.Elastic.InOut)
+    .delay(10000)
+    .start();
+var tweenF = new TWEEN.Tween(pos5,groupF)
+    .to(pos6, 6000)
+    .onUpdate(function() {
+      camera.position.set(pos5.x, pos5.y, pos5.z);
+    })
+    .onComplete(function(){
+      console.log("F complete");
+      updateF = false;
+    })
+    .easing(TWEEN.Easing.Back.InOut)
+    .delay(10000)
+    .start();
+tweenA.chain(tweenB);
+tweenB.chain(tweenC);
+tweenC.chain(tweenD);
+tweenD.chain(tweenE);
+tweenE.chain(tweenF);
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    if (update && (nextPos < scene.cameraPositions.length)) {
-        camUpdatePos(scene.cameraPositions[nextPos]);
-    }
+  if(updateA) groupA.update();
+  else if(updateB) {
+    tweenA.stop();
+    groupB.update();
+  }
+  else if(updateC) {
+    tweenB.stop();
+    groupC.update();
+  }
+  else if(updateD) {
+    tweenC.stop();
+    groupD.update();
+  }
+  else if(updateE) {
+    tweenD.stop();
+    groupE.update();
+  }
+  else if(updateF) {
+    tweenE.stop();
+    groupF.update();
+  }
     controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
@@ -207,6 +331,7 @@ fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.j
     });
 
     text = new Mesh(geometry, textMaterial);
+    text.position.set(5.6, -1, 4);
     scene.add(text);
 
 })
