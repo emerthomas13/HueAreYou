@@ -7,7 +7,7 @@
  *
  */
 import { WebGLRenderer, Object3D, MeshPhongMaterial, BoxGeometry, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry, Vector2, Raycaster } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
 import { SpaceScene } from 'scenes';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
 
@@ -17,7 +17,7 @@ const scene = new SpaceScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 const EPS = 0.00005;
-var time = 5000;
+var time = 3000;
 var updateA, updateB, updateC, updateD, updateE, updateF = false;
 var mouse = new Vector2();
 var hemiColor = scene.children[1].children[1].color;
@@ -31,12 +31,20 @@ var groupC = new TWEEN.Group();
 var groupD = new TWEEN.Group();
 var groupE = new TWEEN.Group();
 var groupF = new TWEEN.Group();
+var prevTime = Date.now();
+var moveForward = false;
+var moveBackward = false;
+var moveLeft = false;
+var moveRight = false;
+var velocity = new Vector3();
+var direction = new Vector3();
+var vertex = new Vector3();
 var colorVals = [0, 0, 0];
 var colorLight = Math.random() * 0.25;
 
 // Set up camera
 camera.position.set(6, 3, 15);
-camera.lookAt(new Vector3(-5, 0, -5));
+camera.lookAt(new Vector3(3, 0, 5));
 //console.log(camera);
 
 // Set up renderer, canvas, and minor CSS adjustments
@@ -48,15 +56,65 @@ document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
 // Set up controls
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.enablePan = false;
-controls.minDistance = 4;
-controls.maxDistance = 16;
-controls.update();
+const controls = new PointerLockControls(camera, canvas);
+controls.addEventListener('locked', function(){
+
+});
+var onKeyDown = function ( event ) {
+
+		switch ( event.keyCode ) {
+
+			case 38: // up
+			case 87: // w
+				moveForward = true;
+				break;
+
+			case 37: // left
+			case 65: // a
+				moveLeft = true;
+				break;
+
+			case 40: // down
+			case 83: // s
+				moveBackward = true;
+				break;
+
+			case 39: // right
+			case 68: // d
+				moveRight = true;
+				break;
+    }
+};
+var onKeyUp = function ( event ) {
+
+	switch ( event.keyCode ) {
+
+		case 38: // up
+		case 87: // w
+			moveForward = false;
+			break;
+
+		case 37: // left
+		case 65: // a
+			moveLeft = false;
+			break;
+
+		case 40: // down
+		case 83: // s
+			moveBackward = false;
+			break;
+
+		case 39: // right
+		case 68: // d
+			moveRight = false;
+			break;
+
+	}
+};
+window.addEventListener( 'keydown', onKeyDown, false );
+window.addEventListener( 'keyup', onKeyUp, false );
 
 window.addEventListener("click", clicks, false);
-
 var j = 0;
 function clicks(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -77,6 +135,7 @@ function clicks(event) {
                 ambiB.start();
                 bgB.start();
                 tweenB.start();
+                lookB.start();
                 updateB = true;
                 i++
             }
@@ -92,6 +151,7 @@ function clicks(event) {
                 ambiB.start();
                 bgB.start();
                 tweenB.start();
+                lookB.start();
                 updateB = true;
                 i++
             }
@@ -106,8 +166,8 @@ function clicks(event) {
                 ambiC.start();
                 bgC.start();
                 tweenC.start();
+                lookC.start();
                 updateC = true;
-                i++
             }
             else if (object == 25 && !tweenB.isPlaying()) {
 
@@ -120,8 +180,8 @@ function clicks(event) {
                 ambiC.start();
                 bgC.start();
                 tweenC.start();
+                lookC.start();
                 updateC = true;
-                i++
             }
             else if (object == 27 && !tweenC.isPlaying()) {
                 intersects[i].object.material = ansMaterial;
@@ -132,6 +192,7 @@ function clicks(event) {
                 ambiD.start();
                 bgD.start();
                 tweenD.start();
+                lookD.start();
                 updateD = true;
                 i++
             }
@@ -144,6 +205,7 @@ function clicks(event) {
                 ambiD.start();
                 bgD.start();
                 tweenD.start();
+                lookD.start();
                 colorVals[2] = 1;
                 console.log('3b', colorVals);
                 updateD = true;
@@ -159,6 +221,7 @@ function clicks(event) {
                 ambiE.start();
                 bgE.start();
                 tweenE.start();
+                lookE.start();
                 updateE = true;
                 i++
             }
@@ -172,8 +235,8 @@ function clicks(event) {
                 ambiE.start();
                 bgE.start();
                 tweenE.start();
+                lookE.start();
                 updateE = true;
-                i++
             }
             else if (object == 32 && !tweenE.isPlaying()) {
                 updateE = false;
@@ -182,20 +245,23 @@ function clicks(event) {
                 ambiF.start();
                 bgF.start();
                 tweenF.start();
+                lookF.start();
                 updateF = true;
-                scene.remove(stars);
+                scene.remove(scene.children[0]);
                 i++
             }
         }
     }
     else {
         if (j == 0) {
-            hemiA.start();
-            spotA.start();
-            ambiA.start();
-            bgA.start();
-            tweenA.start();
-            updateA = true;
+          controls.unlock();
+          hemiA.start();
+          spotA.start();
+          ambiA.start();
+          bgA.start();
+          tweenA.start();
+          lookA.start();
+          updateA = true;
             j++;
             makeVisible(0, true);
         }
@@ -203,6 +269,7 @@ function clicks(event) {
 }
 // set up Camera
 var currentCam = { x: camera.position.x, y: camera.position.y, z: camera.position.z };
+var currentLook = {x: 3, y: 0, z: 5};
 
 var currentHemi = { r: hemiColor.r, g: hemiColor.g, b: hemiColor.b };
 var currentSpot = { r: spotColor.r, g: spotColor.g, b: spotColor.b };
@@ -215,6 +282,13 @@ var pos = [{ x: -1.99, y: 1.0, z: 8.7 },
 { x: 4.68, y: 7.55, z: 1.31 },
 { x: -5.9, y: 8.1, z: -6.11 },
 { x: 13.84, y: -0.9, z: 7.97 }];
+
+var look = [{ x: 4, y: 1, z: -11 },
+{ x: -3.7, y: 0.9, z: -11 },
+{ x: -4.9, y: 0.4, z: 1.9 },
+{ x: -0.1, y: 5, z: 0.1 },
+{ x: 6.1, y: 6.1, z: 5.88 },
+{ x: -13.84, y: 0.5, z: -7.97 }];
 
 var hemi = [{ r: 53 / 255, g: 64 / 255, b: 100 / 255 },
 { r: 65 / 255, g: 56 / 255, b: 107 / 255 },
@@ -265,9 +339,20 @@ function TweenColor(current, group, next, set) {
         });
 }
 
+// For lookAt
+function TweenLook(current, group, next) {
+    return new TWEEN.Tween(current, group)
+        .to(next, time)
+        .onUpdate(function () {
+            camera.lookAt(new Vector3(current.x, current.y, current.z));
+        });
+}
+
+
 // Group A
 var tweenA = TweenCam(currentCam, groupA, pos[0]);
 //.easing(TWEEN.Easing.Elastic.InOut)
+var lookA = TweenLook(currentLook, groupA, look[0]);
 var spotA = TweenColor(currentSpot, groupA, spot[0], spotColor);
 var ambiA = TweenColor(currentAmbi, groupA, ambi[0], ambiColor);
 var hemiA = TweenColor(currentHemi, groupA, hemi[0], hemiColor);
@@ -276,6 +361,7 @@ var bgA = TweenColor(currentBG, groupA, bgs[0], bg);
 // Group B
 var tweenB = TweenCam(pos[0], groupB, pos[1], updateB);
 //.easing(TWEEN.Easing.Elastic.InOut)
+var lookB = TweenLook(look[0], groupB, look[1]);
 var spotB = TweenColor(spot[0], groupB, spot[1], spotColor);
 var ambiB = TweenColor(ambi[0], groupB, ambi[1], ambiColor);
 var hemiB = TweenColor(hemi[0], groupB, hemi[1], hemiColor);
@@ -284,6 +370,7 @@ var bgB = TweenColor(bgs[0], groupB, bgs[1], bg);
 // Group C
 var tweenC = TweenCam(pos[1], groupC, pos[2], updateC);
 //.easing(TWEEN.Easing.Elastic.InOut)
+var lookC = TweenLook(look[1], groupC, look[2]);
 var spotC = TweenColor(spot[1], groupC, spot[2], spotColor);
 var ambiC = TweenColor(ambi[1], groupC, ambi[2], ambiColor);
 var hemiC = TweenColor(hemi[1], groupC, hemi[2], hemiColor);
@@ -292,6 +379,7 @@ var bgC = TweenColor(bgs[1], groupC, bgs[2], bg);
 // Group D
 var tweenD = TweenCam(pos[2], groupD, pos[3], updateD);
 //.easing(TWEEN.Easing.Elastic.InOut)
+var lookD = TweenLook(look[2], groupD, look[3]);
 var spotD = TweenColor(spot[2], groupD, spot[3], spotColor);
 var ambiD = TweenColor(ambi[2], groupD, ambi[3], ambiColor);
 var hemiD = TweenColor(hemi[2], groupD, hemi[3], hemiColor);
@@ -300,14 +388,18 @@ var bgD = TweenColor(bgs[2], groupD, bgs[3], bg);
 // Group E
 var tweenE = TweenCam(pos[3], groupE, pos[4], updateE);
 //.easing(TWEEN.Easing.Elastic.InOut)
+var lookE = TweenLook(look[3], groupE, look[4]);
 var spotE = TweenColor(spot[3], groupE, spot[4], spotColor);
 var ambiE = TweenColor(ambi[3], groupE, ambi[4], ambiColor);
 var hemiE = TweenColor(hemi[3], groupE, hemi[4], hemiColor);
 var bgE = TweenColor(bgs[3], groupE, bgs[4], bg);
 
 //Group F
-var tweenF = TweenCam(pos[4], groupF, pos[5], updateF);
-//.easing(TWEEN.Easing.Elastic.InOut)
+ar tweenF = TweenCam(pos[4], groupF, pos[5], updateF);
+tweenF.onComplete(function() {
+  controls.lock();
+})
+var lookF = TweenLook(look[4], groupF, look[5]);
 var spotF = TweenColor(spot[4], groupF, spot[5], spotColor);
 var ambiF = TweenColor(ambi[4], groupF, ambi[5], ambiColor);
 var hemiF = TweenColor(hemi[4], groupF, hemi[5], hemiColor);
@@ -341,6 +433,25 @@ const onAnimationFrameHandler = (timeStamp) => {
     else if (updateF) {
         tweenE.stop();
         groupF.update();
+    }
+    if ( controls.isLocked === true ) {
+      var time = Date.now();
+      var delta = ( time - prevTime ) / 1000;
+
+      velocity.x -= velocity.x * 100.0 * delta;
+      velocity.z -= velocity.z * 100.0 * delta;
+
+      direction.z = Number( moveForward ) - Number( moveBackward );
+      direction.x = Number( moveRight ) - Number( moveLeft );
+      direction.normalize(); // this ensures consistent movements in all directions
+
+      if ( moveForward || moveBackward ) velocity.z -= direction.z * 500.0 * delta;
+      if ( moveLeft || moveRight ) velocity.x -= direction.x * 500.0 * delta;
+
+
+      controls.moveRight( - velocity.x * delta );
+      controls.moveForward( - velocity.z * delta );
+      prevTime = time;
     }
     controls.update();
     renderer.render(scene, camera);

@@ -59,15 +59,15 @@ class SpaceScene extends Scene {
         // this.textPositions.push(new Vector3(3, 4, 3));
         // this.textPositions.push(new Vector3(-0.8, 7.8, 3));
         this.textPositions.push(new Vector3(landPos.x + 5.5, landPos.y + 26.0, landPos.z - 12));
-        this.textPositions.push(new Vector3(landPos.x + 2.0, landPos.y + 30.5, landPos.z - 9.5));
-        this.textPositions.push(new Vector3(landPos.x - 4, landPos.y + 31.8, landPos.z - 15.5));
+        this.textPositions.push(new Vector3(landPos.x + 5.3, landPos.y + 30.5, landPos.z - 12.9));
+        this.textPositions.push(new Vector3(landPos.x - 4, landPos.y + 32.5, landPos.z - 12.5));
 
 
         this.lookAtPositions.push(new Vector3(-15, -1, 55));
         this.lookAtPositions.push(new Vector3(12, -0.5, 15));
         this.lookAtPositions.push(new Vector3(12, -0.3, -5));
-        this.lookAtPositions.push(new Vector3(7, 8, 5));
-        this.lookAtPositions.push(new Vector3(-10, 10, -10));
+        this.lookAtPositions.push(new Vector3(8, 5.5, -5.4));
+        this.lookAtPositions.push(new Vector3(-10, 6.0, -6));
 
         // this.scene1Container = new Object3D();
         // this.scene1Container.add(box1);
