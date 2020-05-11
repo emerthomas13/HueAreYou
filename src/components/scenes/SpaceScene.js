@@ -49,28 +49,23 @@ class SpaceScene extends Scene {
         const lights = new BasicLights();
         this.add(lights, nature);
 
-        this.textPositions.push(new Vector3(-2, 1, -5));
+        var landPos = new Vector3(0, -25, 10);
+        this.textPositions.push(new Vector3(landPos.x - 2, landPos.y + 26.5,landPos.z - 5));
         //this.textPositions.push(new Vector3(5.5, -1.2, 11));
-        this.textPositions.push(new Vector3(4, 2, -3));
+        this.textPositions.push(new Vector3(landPos.x + 6, landPos.y + 26.5, landPos.z - 3));
         // this.textPositions.push(new Vector3(3.8, -0.5, 0.3));
         // this.textPositions.push(new Vector3(3, 4, 3));
         // this.textPositions.push(new Vector3(-0.8, 7.8, 3));
-        this.textPositions.push(new Vector3(7, 2, -8));
-        this.textPositions.push(new Vector3(5, 2, -12));
-        this.textPositions.push(new Vector3(-2, 7.8, -12));
+        this.textPositions.push(new Vector3(landPos.x + 5.5, landPos.y + 26.0, landPos.z -12));
+        this.textPositions.push(new Vector3(landPos.x + 2.0, landPos.y + 30.5, landPos.z - 9.5));
+        this.textPositions.push(new Vector3(landPos.x - 4, landPos.y + 31.8, landPos.z - 15.5));
 
-        this.cameraPositions.push(new Vector3(-2.2, -0.8, 9.1));
-        this.cameraPositions.push(new Vector3(7.1, -1.2, 12.4));
-        this.cameraPositions.push(new Vector3(5.7, -0.4, -0.9));
-        this.cameraPositions.push(new Vector3(6.7, 7, 4));
-        this.cameraPositions.push(new Vector3(0.6, 11.8, 4.7));
-        this.cameraPositions.push(new Vector3(-5.0, -1.3, 9.1));
 
         this.lookAtPositions.push(new Vector3(-15, -1, 55));
-        this.lookAtPositions.push(new Vector3(15.7, -1, 30));
-        this.lookAtPositions.push(new Vector3(36, 1, -10));
-        this.lookAtPositions.push(new Vector3(7, 6, 5));
-        this.lookAtPositions.push(new Vector3(1, 20, 10));
+        this.lookAtPositions.push(new Vector3(12, -0.5, 15));
+        this.lookAtPositions.push(new Vector3(12, -0.3, -5));
+        this.lookAtPositions.push(new Vector3(7, 8, 5));
+        this.lookAtPositions.push(new Vector3(-10, 10, -10));
 
         // this.scene1Container = new Object3D();
         // this.scene1Container.add(box1);

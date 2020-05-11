@@ -17,8 +17,13 @@ const scene = new SpaceScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 const EPS = 0.00005;
+var time = 5000;
 var updateA, updateB, updateC, updateD, updateE, updateF = false;
 var mouse = new Vector2();
+var hemiColor = scene.children[1].children[1].color;
+var ambiColor = scene.children[1].children[0].color;
+var spotColor = scene.children[1].children[2].color;
+var bg = scene.background;
 var raycaster = new Raycaster();
 var groupA = new TWEEN.Group();
 var groupB = new TWEEN.Group();
@@ -30,7 +35,7 @@ var colorVals = [0, 0, 0];
 var colorLight = Math.random() * 0.5;
 
 // Set up camera
-camera.position.set(6, 3, -10);
+camera.position.set(6, 3, 15);
 camera.lookAt(new Vector3(-5, 0, -5));
 //console.log(camera);
 
@@ -52,9 +57,7 @@ controls.update();
 
 window.addEventListener("click", clicks, false);
 
-function firstclick(event) {
-    updateA = true;
-}
+var j = 0;
 function clicks(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
@@ -64,147 +67,229 @@ function clicks(event) {
     if (event && intersects.length > 0) {
         for (var i = 0; i < intersects.length; i++) {
             object = intersects[i].object.id;
-            // if (object == 20) {
-            //     updateA = true;
-            //     i++
-            // }
-            if (object == 21 && !updateA) {
-                updateB = true;
-                i++
+            if (object == 21 && !tweenA.isPlaying()) {
+              updateA = false;
+              hemiB.start();
+              spotB.start();
+              ambiB.start();
+              bgB.start();
+              tweenB.start();
+              updateB = true;
+              i++
             }
-            else if (object == 22 && !updateA) {
-                colorVals[0] = 1;
-                updateB = true;
-                i++
+            else if (object == 22 && !tweenA.isPlaying()) {
+              colorVals[0] = 1;
+              updateA = false;
+              hemiB.start();
+              spotB.start();
+              ambiB.start();
+              bgB.start();
+              tweenB.start();
+              updateB = true;
+              i++
             }
-            else if (object == 24 && !updateB) {
-                updateC = true;
-                i++
+            else if (object == 24 && !tweenB.isPlaying()) {
+              updateB = false;
+              hemiC.start();
+              spotC.start();
+              ambiC.start();
+              bgC.start();
+              tweenC.start();
+              updateC = true;
+              i++
             }
-            else if (object == 25 && !updateB) {
+            else if (object == 25 && !tweenB.isPlaying()) {
                 colorVals[1] = 1;
+                updateB = false;
+                hemiC.start();
+                spotC.start();
+                ambiC.start();
+                bgC.start();
+                tweenC.start();
                 updateC = true;
                 i++
             }
-            else if (object == 27 && !updateC) {
-                updateD = true;
-                i++
+            else if (object == 27 && !tweenC.isPlaying()) {
+              updateC = false;
+              hemiD.start();
+              spotD.start();
+              ambiD.start();
+              bgD.start();
+              tweenD.start();
+              updateD = true;
+              i++
             }
-            else if (object == 28 && !updateC) {
-                colorVals[2] = 2;
-                updateD = true;
-                i++
+            else if (object == 28 && !tweenC.isPlaying()) {
+              updateC = false;
+              hemiD.start();
+              spotD.start();
+              ambiD.start();
+              bgD.start();
+              tweenD.start();
+              colorVals[2] = 2;
+              updateD = true;
+              i++
             }
-            else if (object == 30 && !updateD) {
-                makeShape(colorVals, colorLight);
-                updateE = true;
-                i++
+            else if (object == 30 && !tweenD.isPlaying()) {
+              makeShape(colorVals, colorLight);
+              updateD = false;
+              hemiE.start();
+              spotE.start();
+              ambiE.start();
+              bgE.start();
+              tweenE.start();
+              updateE = true;
+              i++
+          }
+            else if (object == 31 && !tweenD.isPlaying()) {
+              colorLight = Math.random() * 0.5 + 0.5;
+              makeShape(colorVals, colorLight);
+              updateD = false;
+              hemiE.start();
+              spotE.start();
+              ambiE.start();
+              bgE.start();
+              tweenE.start();
+              updateE = true;
+              i++
             }
-            else if (object == 31 && !updateD) {
-                colorLight = Math.random() * 0.5 + 0.5;
-                makeShape(colorVals, colorLight);
-                updateE = true;
-                i++
+            else if (object == 32 && !tweenE.isPlaying()) {
+              updateE = false;
+              hemiF.start();
+              spotF.start();
+              ambiF.start();
+              bgF.start();
+              tweenF.start();
+              updateF = true;
+              scene.remove(stars);
+              i++
             }
-            // else if (object == 32 && !updateE) {
-            //     updateF = true;
-            //     i++
-            // }
         }
     }
+  else {
+    if( j == 0) {
+      hemiA.start();
+      spotA.start();
+      ambiA.start();
+      bgA.start();
+      tweenA.start();
+      updateA = true;
+      j++;
+    }
+  }
 }
-// set up transitions
-var currentCam = {
-    x: camera.position.x,
-    y: camera.position.y,
-    z: camera.position.z
-};
+// set up Camera
+var currentCam = { x: camera.position.x, y: camera.position.y, z: camera.position.z };
 
-var pos1 = { x: -2.2, y: -0.8, z: 9.1 };
-var pos2 = { x: 7.1, y: -1.2, z: 12.4 };
-var pos3 = { x: 5.7, y: -0.4, z: -0.9 };
-var pos4 = { x: 6.7, y: 7, z: 4 };
-var pos5 = { x: 0.6, y: 11.8, z: 4.7 };
-var pos6 = { x: -5.0, y: -1.3, z: 9.1 };
+var currentHemi = {r: hemiColor.r, g: hemiColor.g, b: hemiColor.b};
+var currentSpot = {r: spotColor.r, g: spotColor.g, b: spotColor.b};
+var currentAmbi = {r: ambiColor.r, g: ambiColor.g, b: ambiColor.b};
+var currentBG = {r: bg.r, g: bg.g, b: bg.b};
 
-var tweenA = new TWEEN.Tween(currentCam, groupA)
-    .to(pos1, 6000)
-    .onUpdate(function () {
-        camera.position.set(currentCam.x, currentCam.y, currentCam.z);
-        //console.log(currentCam.x);
-    })
-    .onComplete(function () {
-        updateA = false;
-        console.log("A complete");
-    })
-    .easing(TWEEN.Easing.Elastic.InOut)
-    .delay(10000)
-    .start();
+var pos = [{ x: -1.99, y: 1.0, z: 8.7 },
+          { x: 8.6, y: 1.0, z: 8.4 },
+          { x: 7.4, y: 0.4, z: -3.9 },
+          { x: 4.68, y: 7.55, z: 1.31 },
+          { x: -5.9, y: 8.1, z: -6.11 },
+          { x: 13.84, y: -0.9, z: 7.97}];
 
-var tweenB = new TWEEN.Tween(pos1, groupB)
-    .to(pos2, 6000)
-    .onUpdate(function () {
-        camera.position.set(pos1.x, pos1.y, pos1.z);
-    })
-    .onComplete(function () {
-        updateB = false;
-        console.log("B complete");
-    })
-    .easing(TWEEN.Easing.Elastic.InOut)
-    .delay(10000)
-    .start();
+var hemi =  [{r: 53/255, g: 64/255, b: 100/255},
+            {r: 65/255, g: 56/255, b: 107/255},
+            {r: 107/255, g: 56/255, b: 56/255},
+            {r: 107/255, g: 68/255, b: 56/255},
+            {r: 107/255, g: 93/255, b: 56/255},
+            {r: 56/255, g: 103/255, b: 107/255}];
 
+var ambi =  [{r: 102/255, g: 100/255, b: 169/255},
+            {r: 86/255, g: 107/255, b: 225/255},
+            {r: 224/255, g: 103/255, b: 103/255},
+            {r: 222/255, g: 147/255, b: 94/255},
+            {r: 223/255, g: 172/255, b: 78/255},
+            {r: 178/255, g: 168/255, b: 133/255}];
 
-var tweenC = new TWEEN.Tween(pos2, groupC)
-    .to(pos3, 6000)
-    .onUpdate(function () {
-        camera.position.set(pos2.x, pos2.y, pos2.z);
-    })
-    .onComplete(function () {
-        updateC = false;
-        console.log("C complete");
-    })
-    .easing(TWEEN.Easing.Elastic.InOut)
-    .delay(10000)
-    .start();
+var spot =  [{r: 43/255, g: 49/255, b: 171/255},
+            {r: 109/255, g: 39/255, b: 206/255},
+            {r: 203/255, g: 52/255, b: 52/255},
+            {r: 174/255, g: 97/255, b: 45/255},
+            {r: 173/255, g: 128/255, b: 31/255},
+            {r: 236/255, g: 210/255, b: 156/255}];
 
-var tweenD = new TWEEN.Tween(pos3, groupD)
-    .to(pos4, 6000)
-    .onUpdate(function () {
-        camera.position.set(pos3.x, pos3.y, pos3.z);
-    })
-    .onComplete(function () {
-        console.log("D complete");
-        updateD = false;
-    })
-    .easing(TWEEN.Easing.Elastic.InOut)
-    .delay(10000)
-    .start();
+var bgs =   [{r: 5/255, g: 17/255, b: 102/255},
+            {r: 27/255, g: 5/255, b: 92/255},
+            {r: 92/255, g: 10/255, b: 92/255},
+            {r: 215/255, g: 88/255, b: 29/255},
+            {r: 158/255, g: 209/255, b: 250/255},
+            {r: 78/255, g: 217/255, b: 239/255}];
 
-var tweenE = new TWEEN.Tween(pos4, groupE)
-    .to(pos5, 6000)
-    .onUpdate(function () {
-        camera.position.set(pos4.x, pos4.y, pos4.z);
-    })
-    .onComplete(function () {
-        console.log("E complete");
-        updateE = false;
-    })
-    .easing(TWEEN.Easing.Elastic.InOut)
-    .delay(10000)
-    .start();
-var tweenF = new TWEEN.Tween(pos5, groupF)
-    .to(pos6, 6000)
-    .onUpdate(function () {
-        camera.position.set(pos5.x, pos5.y, pos5.z);
-    })
-    .onComplete(function () {
-        console.log("F complete");
-        updateF = false;
-    })
-    .easing(TWEEN.Easing.Back.InOut)
-    .delay(10000)
-    .start();
+// For camera changes
+function TweenCam(current, group, next, update){
+  return new TWEEN.Tween(current, group)
+      .to(next, time)
+      .onUpdate(function () {
+          camera.position.set(current.x, current.y, current.z);
+      })
+      .onComplete(function () {
+          update = false;
+          //console.log("done");
+      });
+}
+// For color changes
+function TweenColor(current, group, next, set){
+  return new TWEEN.Tween(current, group)
+      .to(next, time)
+      .onUpdate(function() {
+        set.setRGB(current.r, current.g, current.b);
+      });
+}
+
+// Group A
+var tweenA = TweenCam(currentCam, groupA, pos[0]);
+    //.easing(TWEEN.Easing.Elastic.InOut)
+var spotA = TweenColor(currentSpot, groupA, spot[0], spotColor);
+var ambiA = TweenColor(currentAmbi, groupA, ambi[0], ambiColor);
+var hemiA = TweenColor(currentHemi, groupA, hemi[0], hemiColor);
+var bgA = TweenColor(currentBG, groupA, bgs[0], bg);
+
+// Group B
+var tweenB = TweenCam(pos[0], groupB, pos[1], updateB);
+    //.easing(TWEEN.Easing.Elastic.InOut)
+var spotB = TweenColor(spot[0], groupB, spot[1], spotColor);
+var ambiB = TweenColor(ambi[0], groupB, ambi[1], ambiColor);
+var hemiB = TweenColor(hemi[0], groupB, hemi[1], hemiColor);
+var bgB = TweenColor(bgs[0], groupB, bgs[1], bg);
+
+// Group C
+var tweenC = TweenCam(pos[1], groupC, pos[2], updateC);
+    //.easing(TWEEN.Easing.Elastic.InOut)
+var spotC = TweenColor(spot[1], groupC, spot[2], spotColor);
+var ambiC = TweenColor(ambi[1], groupC, ambi[2], ambiColor);
+var hemiC = TweenColor(hemi[1], groupC, hemi[2], hemiColor);
+var bgC = TweenColor(bgs[1], groupC, bgs[2], bg);
+
+// Group D
+var tweenD = TweenCam(pos[2], groupD, pos[3], updateD);
+    //.easing(TWEEN.Easing.Elastic.InOut)
+var spotD = TweenColor(spot[2], groupD, spot[3], spotColor);
+var ambiD = TweenColor(ambi[2], groupD, ambi[3], ambiColor);
+var hemiD = TweenColor(hemi[2], groupD, hemi[3], hemiColor);
+var bgD = TweenColor(bgs[2], groupD, bgs[3], bg);
+
+// Group E
+var tweenE = TweenCam(pos[3], groupE, pos[4], updateE);
+    //.easing(TWEEN.Easing.Elastic.InOut)
+var spotE = TweenColor(spot[3], groupE, spot[4], spotColor);
+var ambiE = TweenColor(ambi[3], groupE, ambi[4], ambiColor);
+var hemiE = TweenColor(hemi[3], groupE, hemi[4], hemiColor);
+var bgE = TweenColor(bgs[3], groupE, bgs[4], bg);
+
+//Group F
+var tweenF = TweenCam(pos[4], groupF, pos[5], updateF);
+    //.easing(TWEEN.Easing.Elastic.InOut)
+var spotF = TweenColor(spot[4], groupF, spot[5], spotColor);
+var ambiF = TweenColor(ambi[4], groupF, ambi[5], ambiColor);
+var hemiF = TweenColor(hemi[4], groupF, hemi[5], hemiColor);
+var bgF = TweenColor(bgs[4], groupF, bgs[5], bg);
+
 tweenA.chain(tweenB);
 tweenB.chain(tweenC);
 tweenC.chain(tweenD);
@@ -360,12 +445,12 @@ fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.j
     for (let i = 0; i < scene.textPositions.length; i++) {
         geometry = new TextGeometry(questionContents[i], {
             size: 0.1,
-            height: 0.05,
+            height: 0.04,
             curveSegments: 4,
             font: tex,
-            bevelThickness: 1,
-            bevelSize: 0.1,
-            bevelSegments: 5,
+            //bevelThickness: 1,
+            //bevelSize: 0.1,
+            //bevelSegments: 5,
         });
         ageometry = new TextGeometry(answerContents[i], {
             size: 0.09,
@@ -391,6 +476,8 @@ fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.j
         answerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 0.75, scene.textPositions[i].z);
         banswerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 1, scene.textPositions[i].z);
         questionTexts[i].lookAt(scene.lookAtPositions[i]);
+        answerTexts[i].lookAt(scene.lookAtPositions[i]);
+        banswerTexts[i].lookAt(scene.lookAtPositions[i]);
     }
 
     // geometry = new TextGeometry('center', {
