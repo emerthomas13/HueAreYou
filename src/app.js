@@ -6,7 +6,7 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, Object3D, BoxGeometry, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry, Vector2, Raycaster } from 'three';
+import { WebGLRenderer, Object3D, MeshPhongMaterial, BoxGeometry, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry, Vector2, Raycaster } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SpaceScene } from 'scenes';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
@@ -68,6 +68,9 @@ function clicks(event) {
         for (var i = 0; i < intersects.length; i++) {
             object = intersects[i].object.id;
             if (object == 21 && !tweenA.isPlaying()) {
+                //addText(2);
+                intersects[i].object.material = ansMaterial;
+                makeVisible(1, true);
                 updateA = false;
                 hemiB.start();
                 spotB.start();
@@ -78,6 +81,10 @@ function clicks(event) {
                 i++
             }
             else if (object == 22 && !tweenA.isPlaying()) {
+                //addText(2);
+                // console.log(questionTexts[2]);
+                intersects[i].object.material = bansMaterial;
+                makeVisible(1, true);
                 colorVals[0] = 1;
                 updateA = false;
                 hemiB.start();
@@ -89,7 +96,10 @@ function clicks(event) {
                 i++
             }
             else if (object == 24 && !tweenB.isPlaying()) {
-                //console.log(questionTexts[0]);
+                //console.log(questionTexts[3]);
+
+                intersects[i].object.material = ansMaterial;
+                makeVisible(2, true);
                 updateB = false;
                 hemiC.start();
                 spotC.start();
@@ -100,6 +110,9 @@ function clicks(event) {
                 i++
             }
             else if (object == 25 && !tweenB.isPlaying()) {
+
+                intersects[i].object.material = bansMaterial;
+                makeVisible(2, true);
                 colorVals[1] = 1;
                 updateB = false;
                 hemiC.start();
@@ -111,6 +124,8 @@ function clicks(event) {
                 i++
             }
             else if (object == 27 && !tweenC.isPlaying()) {
+                intersects[i].object.material = ansMaterial;
+                makeVisible(3, true);
                 updateC = false;
                 hemiD.start();
                 spotD.start();
@@ -121,6 +136,8 @@ function clicks(event) {
                 i++
             }
             else if (object == 28 && !tweenC.isPlaying()) {
+                intersects[i].object.material = bansMaterial;
+                makeVisible(3, true);
                 updateC = false;
                 hemiD.start();
                 spotD.start();
@@ -133,6 +150,7 @@ function clicks(event) {
                 i++
             }
             else if (object == 30 && !tweenD.isPlaying()) {
+                intersects[i].object.material = ansMaterial;
                 colorLight = Math.random() * 0.25 + 0.25;
                 makeShape(colorVals, colorLight);
                 updateD = false;
@@ -145,6 +163,7 @@ function clicks(event) {
                 i++
             }
             else if (object == 31 && !tweenD.isPlaying()) {
+                intersects[i].object.material = bansMaterial;
                 colorLight = Math.random() * 0.25 + 0.5;
                 makeShape(colorVals, colorLight);
                 updateD = false;
@@ -178,6 +197,7 @@ function clicks(event) {
             tweenA.start();
             updateA = true;
             j++;
+            makeVisible(0, true);
         }
     }
 }
@@ -389,19 +409,19 @@ function makeShape(val, colorLight) {
     //console.log(customColor);
     var geo = new BoxGeometry(0.5, 0.5, 0.5);
 
-    var mat = new MeshBasicMaterial({ color: customColor });
+    var mat = new MeshPhongMaterial({ color: customColor, specular: 50 });
     var cube = new Mesh(geo, mat);
     scene.add(cube);
     var last = scene.textPositions[scene.textPositions.length - 1];
     //questionTexts[4].material.color.setRGB(customColor);
-    addText(4);
-    cube.position.set(last.x, last.y - 2, last.z);
-    cube.lookAt(scene.lookAtPositions[4]);
+    addText(scene.textPositions.length - 1);
+
+    cube.position.set(last.x, last.y - 1, last.z);
+    cube.lookAt(scene.lookAtPositions[scene.textPositions.length - 1]);
     //var colorString = customColor.r.toString() + " " + customColor.g.toString() + " " + customColor.b.toString();
     var resultText;
     var p = Math.round(hue * 1000) / 1000;
-    console.log(p);
-
+    //console.log(p);
 
     var fontLoader = new FontLoader();
     fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.json", function (tex) {
@@ -413,9 +433,8 @@ function makeShape(val, colorLight) {
         });
         resultText = new Mesh(geometry, mat);
         scene.add(resultText);
-        resultText.position.set(last.x, last.y - 1, last.z);
-
-        resultText.lookAt(scene.lookAtPositions[4]);
+        resultText.position.set(last.x, last.y - 0.35, last.z);
+        resultText.lookAt(scene.lookAtPositions[scene.textPositions.length - 1]);
     })
 }
 
@@ -441,12 +460,16 @@ var place = 0;
 var color = new Color();
 var color2 = new Color();
 var color3 = new Color();
+var color4 = new Color();
+color4.setRGB(0, 0, 0);
 color.setRGB(1, 1, 1);
 color2.setRGB(1, 0, 1);
 color3.setRGB(0, 1, 1);
 var textMaterial = new MeshBasicMaterial({ color: color });
 var textMaterial2 = new MeshBasicMaterial({ color: color2 });
 var textMaterial3 = new MeshBasicMaterial({ color: color3 });
+var ansMaterial = new MeshPhongMaterial({ color: color2, specular: 50 });
+var bansMaterial = new MeshPhongMaterial({ color: color3, specular: 50 });
 var questionTexts = [scene.textPositions.length];
 var answerTexts = [scene.textPositions.length];
 var banswerTexts = [scene.textPositions.length];
@@ -455,7 +478,7 @@ var fontLoader = new FontLoader();
 fontLoader.load("./node_modules/three/examples/fonts/gentilis_bold.typeface.json", function (tex) {
     for (let i = 0; i < scene.textPositions.length; i++) {
         geometry = new TextGeometry(questionContents[i], {
-            size: 0.12,
+            size: 0.11,
             height: 0.04,
             curveSegments: 4,
             font: tex,
@@ -476,47 +499,32 @@ fontLoader.load("./node_modules/three/examples/fonts/gentilis_bold.typeface.json
             font: tex,
         });
         questionTexts[i] = new Mesh(geometry, textMaterial);
-
         answerTexts[i] = new Mesh(ageometry, textMaterial2);
         banswerTexts[i] = new Mesh(bgeometry, textMaterial3);
 
         if (i < 4) {
             addText(i);
+            makeVisible(i, false);
         }
-        // scene.add(questionTexts[i], answerTexts[i], banswerTexts[i]);
-
-        // questionTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y, scene.textPositions[i].z);
-        // answerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 0.75, scene.textPositions[i].z);
-        // banswerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 1, scene.textPositions[i].z);
-        // questionTexts[i].lookAt(scene.lookAtPositions[i]);
-        // answerTexts[i].lookAt(scene.lookAtPositions[i]);
-        // banswerTexts[i].lookAt(scene.lookAtPositions[i]);
     }
-
-    // geometry = new TextGeometry('center', {
-    //     size: .3,
-    //     height: .2,
-    //     curveSegments: 6,
-    //     font: tex,
-    // });
-
-    // text = new Mesh(geometry, textMaterial);
-    // text.position.set(5.6, -1, 4);
-    // scene.add(text);
-
 })
 function addText(i) {
     scene.add(questionTexts[i], answerTexts[i], banswerTexts[i]);
-
     questionTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y, scene.textPositions[i].z);
     answerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 0.75, scene.textPositions[i].z);
     banswerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 1, scene.textPositions[i].z);
     questionTexts[i].lookAt(scene.lookAtPositions[i]);
     answerTexts[i].lookAt(scene.lookAtPositions[i]);
     banswerTexts[i].lookAt(scene.lookAtPositions[i]);
+
+
 }
 
-
+function makeVisible(i, b) {
+    questionTexts[i].visible = b;
+    answerTexts[i].visible = b;
+    banswerTexts[i].visible = b;
+}
 
 
 // helper color functions

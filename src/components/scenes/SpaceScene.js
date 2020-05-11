@@ -41,12 +41,14 @@ class SpaceScene extends Scene {
         const nature = new Nature();
         //const forest = new Forest();
         this.nature = nature;
-        console.log(nature.pos);
         this.textPositions = [];
         this.cameraPositions = [];
         this.lookAtPositions = [];
 
         const lights = new BasicLights();
+        // add handler here
+        // https://stackoverflow.com/questions/52689932/can-the-three-js-eventdispatcher-be-used-to-communicate-between-classes
+        // https://threejs.org/docs/#api/en/core/EventDispatcher
         this.add(lights, nature);
 
         var landPos = new Vector3(0, -25, 10);
