@@ -89,7 +89,7 @@ function clicks(event) {
                 i++
             }
             else if (object == 24 && !tweenB.isPlaying()) {
-                console.log(questionTexts[0]);
+                //console.log(questionTexts[0]);
                 updateB = false;
                 hemiC.start();
                 spotC.start();
@@ -393,7 +393,8 @@ function makeShape(val, colorLight) {
     var cube = new Mesh(geo, mat);
     scene.add(cube);
     var last = scene.textPositions[scene.textPositions.length - 1];
-
+    //questionTexts[4].material.color.setRGB(customColor);
+    addText(4);
     cube.position.set(last.x, last.y - 2, last.z);
     cube.lookAt(scene.lookAtPositions[4]);
     //var colorString = customColor.r.toString() + " " + customColor.g.toString() + " " + customColor.b.toString();
@@ -440,7 +441,7 @@ var place = 0;
 var color = new Color();
 var color2 = new Color();
 var color3 = new Color();
-color.setRGB(1, 1, 0);
+color.setRGB(1, 1, 1);
 color2.setRGB(1, 0, 1);
 color3.setRGB(0, 1, 1);
 var textMaterial = new MeshBasicMaterial({ color: color });
@@ -451,10 +452,10 @@ var answerTexts = [scene.textPositions.length];
 var banswerTexts = [scene.textPositions.length];
 
 var fontLoader = new FontLoader();
-fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.json", function (tex) {
+fontLoader.load("./node_modules/three/examples/fonts/gentilis_bold.typeface.json", function (tex) {
     for (let i = 0; i < scene.textPositions.length; i++) {
         geometry = new TextGeometry(questionContents[i], {
-            size: 0.1,
+            size: 0.12,
             height: 0.04,
             curveSegments: 4,
             font: tex,
@@ -463,14 +464,14 @@ fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.j
             //bevelSegments: 5,
         });
         ageometry = new TextGeometry(answerContents[i], {
-            size: 0.09,
-            height: 0.03,
+            size: 0.1,
+            height: 0.04,
             curveSegments: 4,
             font: tex,
         });
         bgeometry = new TextGeometry(banswerContents[i], {
-            size: 0.09,
-            height: 0.03,
+            size: 0.1,
+            height: 0.04,
             curveSegments: 4,
             font: tex,
         });
@@ -479,16 +480,17 @@ fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.j
         answerTexts[i] = new Mesh(ageometry, textMaterial2);
         banswerTexts[i] = new Mesh(bgeometry, textMaterial3);
 
+        if (i < 4) {
+            addText(i);
+        }
+        // scene.add(questionTexts[i], answerTexts[i], banswerTexts[i]);
 
-
-        scene.add(questionTexts[i], answerTexts[i], banswerTexts[i]);
-
-        questionTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y, scene.textPositions[i].z);
-        answerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 0.75, scene.textPositions[i].z);
-        banswerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 1, scene.textPositions[i].z);
-        questionTexts[i].lookAt(scene.lookAtPositions[i]);
-        answerTexts[i].lookAt(scene.lookAtPositions[i]);
-        banswerTexts[i].lookAt(scene.lookAtPositions[i]);
+        // questionTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y, scene.textPositions[i].z);
+        // answerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 0.75, scene.textPositions[i].z);
+        // banswerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 1, scene.textPositions[i].z);
+        // questionTexts[i].lookAt(scene.lookAtPositions[i]);
+        // answerTexts[i].lookAt(scene.lookAtPositions[i]);
+        // banswerTexts[i].lookAt(scene.lookAtPositions[i]);
     }
 
     // geometry = new TextGeometry('center', {
@@ -503,6 +505,18 @@ fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.j
     // scene.add(text);
 
 })
+function addText(i) {
+    scene.add(questionTexts[i], answerTexts[i], banswerTexts[i]);
+
+    questionTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y, scene.textPositions[i].z);
+    answerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 0.75, scene.textPositions[i].z);
+    banswerTexts[i].position.set(scene.textPositions[i].x, scene.textPositions[i].y - 1, scene.textPositions[i].z);
+    questionTexts[i].lookAt(scene.lookAtPositions[i]);
+    answerTexts[i].lookAt(scene.lookAtPositions[i]);
+    banswerTexts[i].lookAt(scene.lookAtPositions[i]);
+}
+
+
 
 
 // helper color functions

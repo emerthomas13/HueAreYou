@@ -50,13 +50,13 @@ class SpaceScene extends Scene {
         this.add(lights, nature);
 
         var landPos = new Vector3(0, -25, 10);
-        this.textPositions.push(new Vector3(landPos.x - 2, landPos.y + 26.5,landPos.z - 5));
+        this.textPositions.push(new Vector3(landPos.x - 2, landPos.y + 26.5, landPos.z - 5));
         //this.textPositions.push(new Vector3(5.5, -1.2, 11));
         this.textPositions.push(new Vector3(landPos.x + 6, landPos.y + 26.5, landPos.z - 3));
         // this.textPositions.push(new Vector3(3.8, -0.5, 0.3));
         // this.textPositions.push(new Vector3(3, 4, 3));
         // this.textPositions.push(new Vector3(-0.8, 7.8, 3));
-        this.textPositions.push(new Vector3(landPos.x + 5.5, landPos.y + 26.0, landPos.z -12));
+        this.textPositions.push(new Vector3(landPos.x + 5.5, landPos.y + 26.0, landPos.z - 12));
         this.textPositions.push(new Vector3(landPos.x + 2.0, landPos.y + 30.5, landPos.z - 9.5));
         this.textPositions.push(new Vector3(landPos.x - 4, landPos.y + 31.8, landPos.z - 15.5));
 
