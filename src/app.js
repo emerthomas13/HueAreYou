@@ -57,62 +57,62 @@ document.body.appendChild(canvas);
 
 // Set up controls
 const controls = new PointerLockControls(camera, canvas);
-controls.addEventListener('locked', function(){
+controls.addEventListener('locked', function () {
 
 });
-var onKeyDown = function ( event ) {
+var onKeyDown = function (event) {
 
-		switch ( event.keyCode ) {
+    switch (event.keyCode) {
 
-			case 38: // up
-			case 87: // w
-				moveForward = true;
-				break;
+        case 38: // up
+        case 87: // w
+            moveForward = true;
+            break;
 
-			case 37: // left
-			case 65: // a
-				moveLeft = true;
-				break;
+        case 37: // left
+        case 65: // a
+            moveLeft = true;
+            break;
 
-			case 40: // down
-			case 83: // s
-				moveBackward = true;
-				break;
+        case 40: // down
+        case 83: // s
+            moveBackward = true;
+            break;
 
-			case 39: // right
-			case 68: // d
-				moveRight = true;
-				break;
+        case 39: // right
+        case 68: // d
+            moveRight = true;
+            break;
     }
 };
-var onKeyUp = function ( event ) {
+var onKeyUp = function (event) {
 
-	switch ( event.keyCode ) {
+    switch (event.keyCode) {
 
-		case 38: // up
-		case 87: // w
-			moveForward = false;
-			break;
+        case 38: // up
+        case 87: // w
+            moveForward = false;
+            break;
 
-		case 37: // left
-		case 65: // a
-			moveLeft = false;
-			break;
+        case 37: // left
+        case 65: // a
+            moveLeft = false;
+            break;
 
-		case 40: // down
-		case 83: // s
-			moveBackward = false;
-			break;
+        case 40: // down
+        case 83: // s
+            moveBackward = false;
+            break;
 
-		case 39: // right
-		case 68: // d
-			moveRight = false;
-			break;
+        case 39: // right
+        case 68: // d
+            moveRight = false;
+            break;
 
-	}
+    }
 };
-window.addEventListener( 'keydown', onKeyDown, false );
-window.addEventListener( 'keyup', onKeyUp, false );
+window.addEventListener('keydown', onKeyDown, false);
+window.addEventListener('keyup', onKeyUp, false);
 
 window.addEventListener("click", clicks, false);
 var j = 0;
@@ -254,14 +254,14 @@ function clicks(event) {
     }
     else {
         if (j == 0) {
-          controls.unlock();
-          hemiA.start();
-          spotA.start();
-          ambiA.start();
-          bgA.start();
-          tweenA.start();
-          lookA.start();
-          updateA = true;
+            controls.unlock();
+            hemiA.start();
+            spotA.start();
+            ambiA.start();
+            bgA.start();
+            tweenA.start();
+            lookA.start();
+            updateA = true;
             j++;
             makeVisible(0, true);
         }
@@ -269,7 +269,7 @@ function clicks(event) {
 }
 // set up Camera
 var currentCam = { x: camera.position.x, y: camera.position.y, z: camera.position.z };
-var currentLook = {x: 3, y: 0, z: 5};
+var currentLook = { x: 3, y: 0, z: 5 };
 
 var currentHemi = { r: hemiColor.r, g: hemiColor.g, b: hemiColor.b };
 var currentSpot = { r: spotColor.r, g: spotColor.g, b: spotColor.b };
@@ -396,8 +396,8 @@ var bgE = TweenColor(bgs[3], groupE, bgs[4], bg);
 
 //Group F
 var tweenF = TweenCam(pos[4], groupF, pos[5], updateF);
-tweenF.onComplete(function() {
-  controls.lock();
+tweenF.onComplete(function () {
+    controls.lock();
 })
 tweenF.easing(TWEEN.Easing.Quintic.In);
 var lookF = TweenLook(look[4], groupF, look[5]);
@@ -435,24 +435,24 @@ const onAnimationFrameHandler = (timeStamp) => {
         tweenE.stop();
         groupF.update();
     }
-    if ( controls.isLocked === true ) {
-      var time = Date.now();
-      var delta = ( time - prevTime ) / 1000;
+    if (controls.isLocked === true) {
+        var time = Date.now();
+        var delta = (time - prevTime) / 1000;
 
-      velocity.x -= velocity.x * 100.0 * delta;
-      velocity.z -= velocity.z * 100.0 * delta;
+        velocity.x -= velocity.x * 100.0 * delta;
+        velocity.z -= velocity.z * 100.0 * delta;
 
-      direction.z = Number( moveForward ) - Number( moveBackward );
-      direction.x = Number( moveRight ) - Number( moveLeft );
-      direction.normalize(); // this ensures consistent movements in all directions
+        direction.z = Number(moveForward) - Number(moveBackward);
+        direction.x = Number(moveRight) - Number(moveLeft);
+        direction.normalize(); // this ensures consistent movements in all directions
 
-      if ( moveForward || moveBackward ) velocity.z -= direction.z * 500.0 * delta;
-      if ( moveLeft || moveRight ) velocity.x -= direction.x * 500.0 * delta;
+        if (moveForward || moveBackward) velocity.z -= direction.z * 500.0 * delta;
+        if (moveLeft || moveRight) velocity.x -= direction.x * 500.0 * delta;
 
 
-      controls.moveRight( - velocity.x * delta );
-      controls.moveForward( - velocity.z * delta );
-      prevTime = time;
+        controls.moveRight(- velocity.x * delta);
+        controls.moveForward(- velocity.z * delta);
+        prevTime = time;
     }
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
@@ -535,7 +535,7 @@ function makeShape(val, colorLight) {
     //console.log(p);
 
     var fontLoader = new FontLoader();
-    fontLoader.load("./node_modules/three/examples/fonts/gentilis_regular.typeface.json", function (tex) {
+    fontLoader.load("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/gentilis_bold.typeface.json", function (tex) {
         var geometry = new TextGeometry(p.toString(), {
             size: 0.2,
             height: 0.08,
@@ -586,7 +586,9 @@ var answerTexts = [scene.textPositions.length];
 var banswerTexts = [scene.textPositions.length];
 
 var fontLoader = new FontLoader();
-fontLoader.load("./node_modules/three/examples/fonts/gentilis_bold.typeface.json", function (tex) {
+//https://github.com/mrdoob/three.js/blob/master/examples/fonts/gentilis_bold.typeface.json
+//./node_modules/three/examples/fonts/gentilis_bold.typeface.json
+fontLoader.load("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/gentilis_bold.typeface.json", function (tex) {
     for (let i = 0; i < scene.textPositions.length; i++) {
         geometry = new TextGeometry(questionContents[i], {
             size: 0.11,
