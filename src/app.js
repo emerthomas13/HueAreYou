@@ -17,7 +17,7 @@ const scene = new SpaceScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 const EPS = 0.00005;
-var time = 3000;
+var time = 4000;
 var updateA, updateB, updateC, updateD, updateE, updateF = false;
 var mouse = new Vector2();
 var hemiColor = scene.children[1].children[1].color;
@@ -238,7 +238,7 @@ function clicks(event) {
                 lookE.start();
                 updateE = true;
             }
-            else if (object == 32 && !tweenE.isPlaying()) {
+            else if (object == 80 && !tweenE.isPlaying()) {
                 updateE = false;
                 hemiF.start();
                 spotF.start();
@@ -314,7 +314,7 @@ var spot = [{ r: 43 / 255, g: 49 / 255, b: 171 / 255 },
 var bgs = [{ r: 5 / 255, g: 17 / 255, b: 102 / 255 },
 { r: 27 / 255, g: 5 / 255, b: 92 / 255 },
 { r: 92 / 255, g: 10 / 255, b: 92 / 255 },
-{ r: 215 / 255, g: 88 / 255, b: 29 / 255 },
+{ r: 232 / 255, g: 131 / 255, b: 84 / 255 },,
 { r: 158 / 255, g: 209 / 255, b: 250 / 255 },
 { r: 78 / 255, g: 217 / 255, b: 239 / 255 }];
 
@@ -351,7 +351,7 @@ function TweenLook(current, group, next) {
 
 // Group A
 var tweenA = TweenCam(currentCam, groupA, pos[0]);
-//.easing(TWEEN.Easing.Elastic.InOut)
+tweenA.easing(TWEEN.Easing.Back.In);
 var lookA = TweenLook(currentLook, groupA, look[0]);
 var spotA = TweenColor(currentSpot, groupA, spot[0], spotColor);
 var ambiA = TweenColor(currentAmbi, groupA, ambi[0], ambiColor);
@@ -360,7 +360,7 @@ var bgA = TweenColor(currentBG, groupA, bgs[0], bg);
 
 // Group B
 var tweenB = TweenCam(pos[0], groupB, pos[1], updateB);
-//.easing(TWEEN.Easing.Elastic.InOut)
+tweenB.easing(TWEEN.Easing.Back.Out);
 var lookB = TweenLook(look[0], groupB, look[1]);
 var spotB = TweenColor(spot[0], groupB, spot[1], spotColor);
 var ambiB = TweenColor(ambi[0], groupB, ambi[1], ambiColor);
@@ -369,7 +369,7 @@ var bgB = TweenColor(bgs[0], groupB, bgs[1], bg);
 
 // Group C
 var tweenC = TweenCam(pos[1], groupC, pos[2], updateC);
-//.easing(TWEEN.Easing.Elastic.InOut)
+tweenC.easing(TWEEN.Easing.Elastic.Out);
 var lookC = TweenLook(look[1], groupC, look[2]);
 var spotC = TweenColor(spot[1], groupC, spot[2], spotColor);
 var ambiC = TweenColor(ambi[1], groupC, ambi[2], ambiColor);
@@ -378,7 +378,7 @@ var bgC = TweenColor(bgs[1], groupC, bgs[2], bg);
 
 // Group D
 var tweenD = TweenCam(pos[2], groupD, pos[3], updateD);
-//.easing(TWEEN.Easing.Elastic.InOut)
+tweenD.easing(TWEEN.Easing.Back.InOut);
 var lookD = TweenLook(look[2], groupD, look[3]);
 var spotD = TweenColor(spot[2], groupD, spot[3], spotColor);
 var ambiD = TweenColor(ambi[2], groupD, ambi[3], ambiColor);
@@ -387,7 +387,7 @@ var bgD = TweenColor(bgs[2], groupD, bgs[3], bg);
 
 // Group E
 var tweenE = TweenCam(pos[3], groupE, pos[4], updateE);
-//.easing(TWEEN.Easing.Elastic.InOut)
+tweenD.easing(TWEEN.Easing.Circular.In);
 var lookE = TweenLook(look[3], groupE, look[4]);
 var spotE = TweenColor(spot[3], groupE, spot[4], spotColor);
 var ambiE = TweenColor(ambi[3], groupE, ambi[4], ambiColor);
@@ -399,6 +399,7 @@ var tweenF = TweenCam(pos[4], groupF, pos[5], updateF);
 tweenF.onComplete(function() {
   controls.lock();
 })
+tweenF.easing(TWEEN.Easing.Quintic.In);
 var lookF = TweenLook(look[4], groupF, look[5]);
 var spotF = TweenColor(spot[4], groupF, spot[5], spotColor);
 var ambiF = TweenColor(ambi[4], groupF, ambi[5], ambiColor);
