@@ -277,11 +277,11 @@ var currentAmbi = { r: ambiColor.r, g: ambiColor.g, b: ambiColor.b };
 var currentBG = { r: bg.r, g: bg.g, b: bg.b };
 
 var pos = [{ x: -1.99, y: 1.0, z: 8.7 },
-{ x: 8.6, y: 1.0, z: 8.4 },
+{ x: 8.48, y: 0.9, z: 8.5 },
 { x: 7.4, y: 0.4, z: -3.9 },
-{ x: 4.68, y: 7.55, z: 1.31 },
-{ x: -5.9, y: 8.1, z: -6.11 },
-{ x: 13.84, y: -0.9, z: 7.97 }];
+{ x: 6.82, y: 5, z: -5.23 },
+{ x: -8.1, y: 6.1, z: -5.88 },
+{ x: 14.84, y: -0.9, z: 7.97 }];
 
 var look = [{ x: 4, y: 1, z: -11 },
 { x: -3.7, y: 0.9, z: -11 },
@@ -395,7 +395,7 @@ var hemiE = TweenColor(hemi[3], groupE, hemi[4], hemiColor);
 var bgE = TweenColor(bgs[3], groupE, bgs[4], bg);
 
 //Group F
-ar tweenF = TweenCam(pos[4], groupF, pos[5], updateF);
+var tweenF = TweenCam(pos[4], groupF, pos[5], updateF);
 tweenF.onComplete(function() {
   controls.lock();
 })
@@ -453,7 +453,6 @@ const onAnimationFrameHandler = (timeStamp) => {
       controls.moveForward( - velocity.z * delta );
       prevTime = time;
     }
-    controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
