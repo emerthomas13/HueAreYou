@@ -1,9 +1,9 @@
 {
   "name": "hue-are-you",
   "repository": "hue-are-you",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "title": "Hue Are You",
-  "description": "SHORT DESCRIPTION OF PROJECT HERE. ONE TO TWO SENTENCES MAX",
+  "description": "Short personality quiz within an animated scene which yields a color",
   "keywords": [
     "Princeton",
     "graphics",

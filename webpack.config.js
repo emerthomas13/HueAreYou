@@ -1,5 +1,6 @@
 const path = require('path');
 const pkg = require('./package.json');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const buildPath = './build/';
 
@@ -20,7 +21,7 @@ module.exports = {
                 exclude: path.resolve(__dirname, './node_modules/'),
             },
             {
-                test: /\.(jpe?g|png|gif|json|svg|tga|bin|gltf|glb|babylon|mtl|pcb|pcd|prwm|obj|mat|mp3|ogg)$/i,
+                test: /\.(jpe?g|png|json|gif|svg|tga|bin|gltf|glb|babylon|mtl|pcb|pcd|prwm|obj|mat|mp3|ogg)$/i,
                 use: 'file-loader',
                 exclude: path.resolve(__dirname, './node_modules/'),
             },
@@ -39,13 +40,17 @@ module.exports = {
                     },
                 ],
             },
+
+
         ],
     },
     resolve: {
+        descriptionFiles: ['package.json'],
         alias: {
             lights$: path.resolve(__dirname, 'src/components/lights'),
             objects$: path.resolve(__dirname, 'src/components/objects'),
             scenes$: path.resolve(__dirname, 'src/components/scenes'),
+
         },
     },
     plugins: [
