@@ -1,9 +1,7 @@
 
 import * as Dat from 'dat.gui';
-import * as BABYLON from 'babylonjs';
-import { Scene, Mesh, Geometry, Points, PointsMaterial, Color, Object3D, Vector3, FontLoader, TextGeometry } from 'three';
-//import { helvetika } from 'three/examples/fonts/helvetiker_regular.typeface.json';
-import { Land, Flower, Box, Nature, Forest } from 'objects';
+import { Scene, Mesh, Geometry, Points, PointsMaterial, Color, Object3D, Vector3 } from 'three';
+import { Box, Nature, Forest } from 'objects';
 import { BasicLights } from 'lights';
 
 class SpaceScene extends Scene {
