@@ -1,6 +1,6 @@
 
 import * as Dat from 'dat.gui';
-import { Scene, Mesh, Geometry, Points, PointsMaterial, Color, Object3D, Vector3 } from 'three';
+import { Scene, FBXLoader, Mesh, Geometry, Points, PointsMaterial, Color, Object3D, Vector3 } from 'three';
 import { Box, Nature, Forest } from 'objects';
 import { BasicLights } from 'lights';
 
@@ -8,6 +8,7 @@ class SpaceScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
         super();
+
 
         // Init state
         this.state = {
@@ -36,6 +37,7 @@ class SpaceScene extends Scene {
         this.background = new Color(0x001933);
         this.add(stars);
 
+        
         const nature = new Nature();
         //const forest = new Forest();
         this.nature = nature;
@@ -47,6 +49,7 @@ class SpaceScene extends Scene {
         // add handler here
         // https://stackoverflow.com/questions/52689932/can-the-three-js-eventdispatcher-be-used-to-communicate-between-classes
         // https://threejs.org/docs/#api/en/core/EventDispatcher
+        
         this.add(lights, nature);
 
         var landPos = new Vector3(0, -25, 10);
@@ -89,6 +92,7 @@ class SpaceScene extends Scene {
             obj.update(timeStamp);
         }
     }
+    
 }
 
 
