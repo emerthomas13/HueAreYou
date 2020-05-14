@@ -6,7 +6,7 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, Object3D, MeshPhongMaterial, BoxGeometry, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry, Vector2, Raycaster } from 'three';
+import { WebGLRenderer, Object3D, MeshStandardMaterial, MeshPhongMaterial, BoxGeometry, PerspectiveCamera, Vector3, Mesh, Color, MeshBasicMaterial, Font, FontLoader, TextGeometry, Vector2, Raycaster } from 'three';
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
 import { SpaceScene } from 'scenes';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min';
@@ -156,7 +156,7 @@ function clicks(event) {
                 i++
             }
             else if (object == 24 && !tweenB.isPlaying()) {
-                //console.log(questionTexts[3]);
+                ////console.log(questionTexts[3]);
 
                 intersects[i].object.material = ansMaterial;
                 makeVisible(2, true);
@@ -207,7 +207,7 @@ function clicks(event) {
                 tweenD.start();
                 lookD.start();
                 colorVals[2] = 1;
-                console.log('3b', colorVals);
+                //console.log('3b', colorVals);
                 updateD = true;
                 i++
             }
@@ -294,7 +294,7 @@ var hemi = [{ r: 53 / 255, g: 64 / 255, b: 100 / 255 },
 { r: 65 / 255, g: 56 / 255, b: 107 / 255 },
 { r: 107 / 255, g: 56 / 255, b: 56 / 255 },
 { r: 107 / 255, g: 68 / 255, b: 56 / 255 },
-{ r: 85 / 255, g: 68 / 255, b: 100 / 255 },
+{ r: 40 / 255, g: 65 / 255, b: 110 / 255 },
 //{ r: 107 / 255, g: 93 / 255, b: 56 / 255 },
 { r: 56 / 255, g: 103 / 255, b: 107 / 255 }];
 
@@ -302,7 +302,7 @@ var ambi = [{ r: 102 / 255, g: 100 / 255, b: 169 / 255 },
 { r: 86 / 255, g: 107 / 255, b: 225 / 255 },
 { r: 224 / 255, g: 103 / 255, b: 103 / 255 },
 { r: 222 / 255, g: 147 / 255, b: 94 / 255 },
-{ r: 200 / 255, g: 130 / 255, b: 140 / 255 },
+{ r: 170 / 255, g: 180 / 255, b: 140 / 255 },
 // { r: 223 / 255, g: 172 / 255, b: 78 / 255 },
 { r: 178 / 255, g: 168 / 255, b: 133 / 255 }];
 
@@ -310,7 +310,7 @@ var spot = [{ r: 43 / 255, g: 49 / 255, b: 171 / 255 },
 { r: 109 / 255, g: 39 / 255, b: 206 / 255 },
 { r: 203 / 255, g: 52 / 255, b: 52 / 255 },
 { r: 174 / 255, g: 97 / 255, b: 45 / 255 },
-{ r: 173 / 255, g: 108 / 255, b: 100 / 255 },
+{ r: 64 / 255, g: 60 / 255, b: 85 / 255 },
 // { r: 173 / 255, g: 128 / 255, b: 31 / 255 },
 { r: 236 / 255, g: 210 / 255, b: 156 / 255 }];
 
@@ -442,15 +442,15 @@ const onAnimationFrameHandler = (timeStamp) => {
         var time = Date.now();
         var delta = (time - prevTime) / 1000.0;
 
-        velocity.x -= velocity.x * 100.0 * delta;
-        velocity.z -= velocity.z * 100.0 * delta;
+        velocity.x -= velocity.x * 50.0 * delta;
+        velocity.z -= velocity.z * 50.0 * delta;
 
         direction.z = Number(moveForward) - Number(moveBackward);
         direction.x = Number(moveRight) - Number(moveLeft);
         direction.normalize(); // this ensures consistent movements in all directions
 
-        if (moveForward || moveBackward) velocity.z -= direction.z * 500.0 * delta;
-        if (moveLeft || moveRight) velocity.x -= direction.x * 500.0 * delta;
+        if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
+        if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
 
 
         controls.moveRight(- velocity.x * delta);
@@ -523,7 +523,7 @@ function makeShape(val, colorLight) {
     //console.log(customColor);
     var geo = new BoxGeometry(0.5, 0.5, 0.5);
 
-    var mat = new MeshPhongMaterial({ color: customColor, specular: 50 });
+    var mat = new MeshBasicMaterial({ color: customColor });
     var cube = new Mesh(geo, mat);
     scene.add(cube);
     var last = scene.textPositions[scene.textPositions.length - 1];
@@ -535,15 +535,16 @@ function makeShape(val, colorLight) {
     //var colorString = customColor.r.toString() + " " + customColor.g.toString() + " " + customColor.b.toString();
     var resultText;
     var p = Math.round(hue * 1000) / 1000;
-    var lr = Math.round(customColor.r * 25500) / 100;
-    var lg = Math.round(customColor.g * 25500) / 100;
-    var lb = Math.round(customColor.b * 25500) / 100;
-    console.log(lr, ",", lg, ",", lb)
+    var lr = Math.round(customColor.r * 255)
+    var lg = Math.round(customColor.g * 255)
+    var lb = Math.round(customColor.b * 255)
+    //console.log(lr, ",", lg, ",", lb)
     //console.log(p);
+    var strCol = "rgb(" + lr.toString() + ", " + lg.toString() + ", " + lb.toString() + ")";
 
     var fontLoader = new FontLoader();
     fontLoader.load("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/gentilis_bold.typeface.json", function (tex) {
-        var geometry = new TextGeometry(p.toString(), {
+        var geometry = new TextGeometry(strCol, {
             size: 0.2,
             height: 0.08,
             curveSegments: 4,
@@ -559,7 +560,7 @@ function makeShape(val, colorLight) {
 
 // adding text for questions
 
-const qstr = 'You hear the howl of a \n dangerous monster in the distance. \n What do you do?|Some friends meet you \n on the road. Who do you bring \n along for the journey?|Along the way you must \ntrain and study. Which \n course do you select?|As you grow closer, voices \n scream your worst nightmares. \n What do you hear?|Your color is:';
+const qstr = 'You hear the howl of a \n dangerous monster in the distance. \n What do you do?|Some friends meet you \n on the road. Who do you bring \n along for the journey?|Along the way you must prepare. \n Which course do you select?|As you grow closer, voices \n scream your worst nightmares. \n What do you hear?|Your color is:';
 var questionContents = qstr.split('|');
 
 const astr = 'a) Take off before its too late | a) Friend with more resources | a) Carry sword, study defensive spells | a) That you will never have power';
